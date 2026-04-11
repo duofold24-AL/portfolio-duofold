@@ -50,7 +50,11 @@ export default function Hero() {
     <section className="hero" id="hero" style={{ position: 'relative' }}>
       <div className="grid-overlay" />
 
-      <div className="hero-content">
+      <div className="hero-content" style={{ 
+        background: 'radial-gradient(circle at center, rgba(11, 11, 15, 0.4) 0%, transparent 70%)',
+        padding: '2rem',
+        borderRadius: '50%'
+      }}>
 
         <LiquidDropTitle text="DUOFOLD-AL" highlight="AL" />
         <p className="hero-subtitle">

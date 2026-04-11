@@ -15,13 +15,13 @@ export default function LiquidHeroBackground() {
         if (canvasRef.current) {
             appRef.current = LiquidBackground(canvasRef.current);
             appRef.current.loadImage('/assets/thic-bg.png');
-            appRef.current.liquidPlane.material.metalness = 0.65; 
-            appRef.current.liquidPlane.material.roughness = 0.12; 
+            appRef.current.liquidPlane.material.metalness = 0.15; // Much lower to reduce glare
+            appRef.current.liquidPlane.material.roughness = 0.6; // Higher to diffuse light
             if (appRef.current.liquidPlane.material.uniforms.uFrequency) {
-                appRef.current.liquidPlane.material.uniforms.uFrequency.value = 12.0;
+                appRef.current.liquidPlane.material.uniforms.uFrequency.value = 8.0; // Softer waves
             }
             if (appRef.current.liquidPlane.material.uniforms.displacementScale) {
-                appRef.current.liquidPlane.material.uniforms.displacementScale.value = 4.5; 
+                appRef.current.liquidPlane.material.uniforms.displacementScale.value = 3.0; 
             }
             appRef.current.setRain(false);
 
@@ -29,18 +29,18 @@ export default function LiquidHeroBackground() {
             let idleTimeout;
             const handleMovement = () => {
               if (appRef.current && appRef.current.liquidPlane.material.uniforms.displacementScale) {
-                appRef.current.liquidPlane.material.uniforms.displacementScale.value = 8.5; // Extreme "thick" waves
+                appRef.current.liquidPlane.material.uniforms.displacementScale.value = 5.5; 
                 
-                // Dim down the white highlights even more to keep it premium
-                appRef.current.liquidPlane.material.metalness = 0.75; 
-                appRef.current.liquidPlane.material.roughness = 0.08;
+                // Keep metalness low to avoid return of the "white glare"
+                appRef.current.liquidPlane.material.metalness = 0.15; 
+                appRef.current.liquidPlane.material.roughness = 0.5;
 
                 clearTimeout(idleTimeout);
                 idleTimeout = setTimeout(() => {
                   if (appRef.current && appRef.current.liquidPlane.material.uniforms.displacementScale) {
-                    appRef.current.liquidPlane.material.uniforms.displacementScale.value = 0.6; 
+                    appRef.current.liquidPlane.material.uniforms.displacementScale.value = 0.4; 
                   }
-                }, 3000); // 3 seconds - stay visible for much longer
+                }, 3000);
               }
             };
 
