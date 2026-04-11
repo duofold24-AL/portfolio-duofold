@@ -715,7 +715,7 @@ function ProjectsTab({ onUnauth }) {
 }
 
 // ── Skills Tab ─────────────────────────────────────────────────────────────
-const emptySkill = { name: '', category: '' }
+const emptySkill = { name: '', category: '', icon: '' }
 
 function SkillsTab({ onUnauth }) {
   const [skills, setSkills] = useState([])
@@ -740,7 +740,7 @@ function SkillsTab({ onUnauth }) {
   const categories = [...new Set(skills.map(s => s.category))].sort()
 
   const openAdd = () => { setForm(emptySkill); setEditId(null); setModal(true) }
-  const openEdit = (s) => { setForm({ name: s.name, category: s.category }); setEditId(s.id); setModal(true) }
+  const openEdit = (s) => { setForm({ name: s.name, category: s.category, icon: s.icon || '' }); setEditId(s.id); setModal(true) }
 
   const save = async () => {
     setSaving(true)
@@ -779,12 +779,13 @@ function SkillsTab({ onUnauth }) {
           <div className="table-wrap">
             <table>
               <thead>
-                <tr><th>#</th><th>Skill Name</th><th>Category</th><th>Actions</th></tr>
+                <tr><th>#</th><th>Icon</th><th>Skill Name</th><th>Category</th><th>Actions</th></tr>
               </thead>
               <tbody>
                 {skills.map(s => (
                   <tr key={s.id}>
                     <td style={{ color: 'var(--muted)', fontSize: 12 }}>{s.id}</td>
+                    <td style={{ fontSize: 18 }}>{s.icon || '⚡'}</td>
                     <td style={{ fontWeight: 600 }}>{s.name}</td>
                     <td><span className="category-badge">{s.category}</span></td>
                     <td>
@@ -812,6 +813,10 @@ function SkillsTab({ onUnauth }) {
               <datalist id="cat-suggestions">
                 {categories.map(c => <option key={c} value={c} />)}
               </datalist>
+            </div>
+            <div className="field">
+              <label>Icon (Emoji or URL)</label>
+              <input value={form.icon} onChange={e => setForm(f => ({ ...f, icon: e.target.value }))} placeholder="e.g. ⚛️ or https://…" />
             </div>
             <div className="modal-footer">
               <button className="btn btn-ghost" onClick={() => setModal(false)}>Cancel</button>

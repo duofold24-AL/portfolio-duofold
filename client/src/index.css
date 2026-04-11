@@ -284,12 +284,32 @@ nav.glass {
 .hero {
   position: relative;
   min-height: 100vh;
+  width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 6rem 1.5rem 4rem;
+  padding: 8rem 1.5rem 4rem;
+}
+
+.hero-container {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: left;
+  }
 }
 
 
@@ -338,13 +358,30 @@ nav.glass {
 .hero-content {
   position: relative;
   z-index: 2;
-  text-align: center;
-  max-width: 900px;
+  text-align: left;
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding-left: 5rem;
+}
+
+.hero-visual {
+  width: 100%;
+  height: clamp(500px, 80vh, 900px);
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: visible;
+}
+
+.spline-viewer {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: var(--radius-lg);
+  /* Ensure the iframe background isn't white */
+  background: transparent;
 }
 
 
@@ -373,7 +410,7 @@ nav.glass {
   line-height: 1.8;
   margin-bottom: 2.5rem;
   max-width: 540px;
-  margin-inline: auto;
+  margin-inline: 0;
 }
 
 
@@ -421,11 +458,11 @@ nav.glass {
 .hero-stats {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 2rem;
   flex-wrap: wrap;
 }
-.stat { text-align: center; }
+.stat { text-align: left; }
 .stat-number {
   font-family: var(--font-display);
   font-size: 2rem;
@@ -1251,11 +1288,28 @@ body.light-mode .button-liquid-specular {
   line-height: 1;
 }
 
+.about-col-text {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 2rem 2.5rem;
+  backdrop-filter: blur(12px);
+}
+
 .about-col-text .section-body {
   font-size: 1.1rem;
   line-height: 1.7;
   color: var(--white);
-  opacity: 0.8;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.about-col-skills {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  backdrop-filter: blur(12px);
 }
 
 .skills-grid-compact {

@@ -28,6 +28,7 @@ export default function About() {
               <div className="skills-grid-compact">
                 {(skills || ['React', 'Python', 'FastAPI', 'PostgreSQL', 'TypeScript', 'Node.js', 'Three.js', 'GSAP', 'Figma', 'WebGL', 'Docker', 'Next.js']).map((s, i) => (
                   <div key={typeof s === 'string' ? s : s.id} className="skill-item">
+                    {typeof s !== 'string' && s.icon && <span style={{ marginRight: '8px' }}>{s.icon}</span>}
                     {typeof s === 'string' ? s : s.name}
                   </div>
                 ))}

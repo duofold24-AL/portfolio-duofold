@@ -23,11 +23,11 @@ def create_skill(body: SkillIn):
     try:
         rows = execute_query(
             """
-            INSERT INTO skills (name, category)
-            VALUES (%s, %s)
+            INSERT INTO skills (name, category, icon)
+            VALUES (%s, %s, %s)
             RETURNING *
             """,
-            (body.name, body.category),
+            (body.name, body.category, body.icon),
         )
         return rows[0]
     except Exception as e:
@@ -40,11 +40,11 @@ def update_skill(skill_id: int, body: SkillIn):
         rows = execute_query(
             """
             UPDATE skills
-            SET name=%s, category=%s
+            SET name=%s, category=%s, icon=%s
             WHERE id=%s
             RETURNING *
             """,
-            (body.name, body.category, skill_id),
+            (body.name, body.category, body.icon, skill_id),
         )
         if not rows:
             raise HTTPException(status_code=404, detail="Skill not found")

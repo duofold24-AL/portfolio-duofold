@@ -42,10 +42,10 @@ export default function LiquidDropTitle({ text = 'DUOPORTFOLIO', highlight = '' 
           .${scopeClass} {
             position: relative;
             display: inline-flex;
-            justify-content: center;
+            justify-content: flex-start;
             width: auto;
             min-width: max-content;
-            padding: 0 2rem;
+            padding: 0;
             isolation: isolate;
           }
 
@@ -56,7 +56,7 @@ export default function LiquidDropTitle({ text = 'DUOPORTFOLIO', highlight = '' 
             text-align: center;
             text-transform: uppercase;
             white-space: nowrap;
-            font-size: clamp(3rem, 10vw, 8.2rem);
+            font-size: clamp(2.2rem, 7vw, 5.5rem);
             font-weight: 800;
             line-height: 0.92;
             letter-spacing: 0.045em;

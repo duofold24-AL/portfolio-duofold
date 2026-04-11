@@ -47,33 +47,39 @@ function AnimatedStat({ target, suffix }) {
 
 export default function Hero() {
   return (
-    <section className="hero" id="hero" style={{ position: 'relative' }}>
+    <section className="hero" id="hero">
       <div className="grid-overlay" />
+      
+      <div className="hero-container">
+        <div className="hero-content">
+          <LiquidDropTitle text="DUOFOLD-AL" highlight="AL" />
+          <p className="hero-subtitle">
+            <strong>Anmol Chaudhary & Loveneesh</strong><br />
+            Crafting immersive digital experiences with clean code,<br />
+            bold design, and obsessive attention to detail.
+          </p>
 
-      <div className="hero-content" style={{ 
-        background: 'radial-gradient(circle at center, rgba(11, 11, 15, 0.4) 0%, transparent 70%)',
-        padding: '2rem',
-        borderRadius: '50%'
-      }}>
+          <div className="hero-stats">
+            <AnimatedStat target={3} suffix="+" />
+            <div className="stat-divider" />
+            <AnimatedStat target={1} suffix="+" />
+            <div className="stat-divider" />
+            <AnimatedStat target={98} suffix="%" />
+          </div>
+        </div>
 
-        <LiquidDropTitle text="DUOFOLD-AL" highlight="AL" />
-        <p className="hero-subtitle">
-          <strong>Anmol Chaudhary & Loveneesh</strong><br />
-          Crafting immersive digital experiences with clean code,<br />
-          bold design, and obsessive attention to detail.
-        </p>
-
-
-
-        <div className="hero-stats">
-          <AnimatedStat target={3} suffix="+" />
-          <div className="stat-divider" />
-          <AnimatedStat target={1} suffix="+" />
-          <div className="stat-divider" />
-          <AnimatedStat target={98} suffix="%" />
+        <div className="hero-visual">
+          {/* PASTE YOUR SPLINE VIEWER LINK IN THE SRC BELOW */}
+          <iframe 
+            src="https://my.spline.design/genkubgreetingrobot-qNjmKsCpd4o281XjtNulLqTd/"
+            frameBorder="0"
+            width="100%"
+            height="100%"
+            title="Spline 3D Design"
+            className="spline-viewer"
+          />
         </div>
       </div>
-
     </section>
   )
 }

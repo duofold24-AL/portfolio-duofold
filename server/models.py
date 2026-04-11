@@ -31,12 +31,14 @@ class ProjectOut(BaseModel):
 class SkillIn(BaseModel):
     name: str
     category: str
+    icon: Optional[str] = None
 
 
 class SkillOut(BaseModel):
     id: int
     name: str
     category: str
+    icon: Optional[str] = None
 
 
 class ContactIn(BaseModel):
