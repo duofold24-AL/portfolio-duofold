@@ -1,0 +1,18 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n \"API,WEB\" -c \"cyan,magenta\" \"npm run api\" \"npm run web\"",
+    "web": "npm --prefix client run dev",
+    "api": ".\\server\\venv\\Scripts\\uvicorn server.main:app --reload --port 8000",
+    "install:all": "npm --prefix client install",
+    "build": "npm --prefix client run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "pip": "^0.0.1"
+  }
+}

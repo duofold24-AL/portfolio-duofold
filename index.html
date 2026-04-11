@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Liquid Glass Hero</title>
+  <meta name="description" content="A premium developer portfolio featuring an advanced liquid glass hero section." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ========== SVG FILTER DEFINITIONS ========== -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute">
+    <defs>
+      <!-- Liquid Displacement Filter -->
+      <filter id="liquid-distort" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+        <feTurbulence
+          id="turb"
+          type="fractalNoise"
+          baseFrequency="0.012 0.008"
+          numOctaves="3"
+          seed="5"
+          result="noise"
+        />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="noise"
+          scale="6"
+          xChannelSelector="R"
+          yChannelSelector="G"
+          result="displaced"
+        />
+        <feGaussianBlur in="displaced" stdDeviation="0.4" result="blurred" />
+        <feComposite in="blurred" in2="SourceGraphic" operator="atop" />
+      </filter>
+
+      <!-- Glow Blur Filter -->
+      <filter id="glow-filter" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="8" result="blur1" />
+        <feGaussianBlur stdDeviation="16" result="blur2" />
+        <feMerge>
+          <feMergeNode in="blur2" />
+          <feMergeNode in="blur1" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+
+      <!-- Soft Depth Blur -->
+      <filter id="depth-blur" x="-10%" y="-10%" width="120%" height="120%">
+        <feGaussianBlur stdDeviation="1.5" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">KV</div>
+    <ul class="nav-links">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Hire Me</a>
+  </nav>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section class="hero" id="hero">
+
+    <!-- Ambient background orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Noise grain overlay -->
+    <div class="grain"></div>
+
+    <!-- Grid lines -->
+    <div class="grid-overlay"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Available for work
+      </p>
+
+      <!-- ====== 3-LAYER LIQUID GLASS TITLE ====== -->
+      <div class="glass-title-wrapper" id="glass-title-wrapper">
+
+        <!-- LAYER 1: Base Depth Layer -->
+        <h1
+          class="glass-title layer-depth"
+          aria-hidden="true"
+          data-text="Creative Developer"
+        >
+          Creative Developer
+        </h1>
+
+        <!-- LAYER 2: Glass Layer (Main) -->
+        <h1
+          class="glass-title layer-glass"
+          aria-hidden="true"
+          data-text="Creative Developer"
+        >
+          Creative Developer
+        </h1>
+
+        <!-- LAYER 3: Glow Layer -->
+        <h1
+          class="glass-title layer-glow"
+          aria-hidden="true"
+          data-text="Creative Developer"
+        >
+          Creative Developer
+        </h1>
+
+        <!-- Accessible real title (screen readers) -->
+        <h1 class="glass-title layer-accessible" data-text="Creative Developer">
+          Creative Developer
+        </h1>
+
+      </div>
+      <!-- ====== END LIQUID GLASS TITLE ====== -->
+
+      <p class="hero-subtitle">
+        We craft immersive digital experiences with clean code,<br />
+        bold design, and obsessive attention to detail.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary" id="view-work-btn">
+          <span>View Our Work</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#contact" class="btn btn-ghost" id="contact-btn">Get in Touch</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number" data-target="3">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Projects Done</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number" data-target="1">0</span><span class="stat-plus">+</span>
+          <span class="stat-label">Years Exp.</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number" data-target="3">0</span><span class="stat-plus">%</span>
+          <span class="stat-label">Happy Clients</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+
+  </section>
+
+  <!-- ========== ABOUT SECTION ========== -->
+  <section class="section about-section" id="about">
+    <div class="section-inner">
+      <span class="section-tag">About Us</span>
+      <h2 class="section-title">Turning ideas into<br /><em>digital art</em></h2>
+      <p class="section-body">
+        We are full-stack developer and creative technologist based in New Delhi, India.
+        I specialise in building high-performance web applications with a laser focus on
+        user experience, micro-interactions, and visual storytelling.
+      </p>
+      <div class="skills-grid">
+        <div class="skill-chip">React</div>
+        <div class="skill-chip">Next.js</div>
+        <div class="skill-chip">TypeScript</div>
+        <div class="skill-chip">Node.js</div>
+        <div class="skill-chip">Three.js</div>
+        <div class="skill-chip">GSAP</div>
+        <div class="skill-chip">Figma</div>
+        <div class="skill-chip">WebGL</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PROJECTS SECTION ========== -->
+  <section class="section projects-section" id="projects">
+    <div class="section-inner">
+      <span class="section-tag">Selected Work</span>
+      <h2 class="section-title">Projects that<br /><em>speak for themselves</em></h2>
+      <div class="projects-grid">
+        <div class="project-card" id="project-1">
+          <div class="project-img" style="background: linear-gradient(135deg,#6C63FF,#EA2E00)"></div>
+          <div class="project-info">
+            <h3>EdZure Legal LLP Platform</h3>
+            <p>Full-stack legal services platform with Firebase, React and real-time document processing.</p>
+            <div class="project-tags">
+              <span>React</span><span>Firebase</span><span>Node.js</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" id="project-2">
+          <div class="project-img" style="background: linear-gradient(135deg,#00D4FF,#6C63FF)"></div>
+          <div class="project-info">
+            <h3>3D Product Visualizer</h3>
+            <p>Interactive WebGL product configurator with real-time material and lighting control.</p>
+            <div class="project-tags">
+              <span>Three.js</span><span>GLSL</span><span>WebGL</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card" id="project-3">
+          <div class="project-img" style="background: linear-gradient(135deg,#EA2E00,#FF6B6B)"></div>
+          <div class="project-info">
+            <h3>AI Dashboard</h3>
+            <p>Real-time analytics dashboard powered by machine learning with animated data visualisations.</p>
+            <div class="project-tags">
+              <span>Next.js</span><span>Python</span><span>D3.js</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT SECTION ========== -->
+  <section class="section contact-section" id="contact">
+    <div class="section-inner contact-inner">
+      <span class="section-tag">Let's Talk</span>
+      <h2 class="section-title">Ready to build<br /><em>something great?</em></h2>
+      <form class="contact-form" id="contact-form" onsubmit="return false;">
+        <div class="form-group">
+          <input type="text" id="name" name="name" placeholder=" " required />
+          <label for="name">Your Name</label>
+        </div>
+        <div class="form-group">
+          <input type="email" id="email" name="email" placeholder=" " required />
+          <label for="email">Email Address</label>
+        </div>
+        <div class="form-group">
+          <textarea id="message" name="message" rows="4" placeholder=" " required></textarea>
+          <label for="message">Your Message</label>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit-btn">
+          <span>Send Message</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l12-6-6 12-2-4-4-2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <p>© 2026 · Crafted with obsession · <span class="footer-name">AL</span></p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
