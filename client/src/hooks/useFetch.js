@@ -9,7 +9,7 @@ export function useFetch(url) {
     if (!url) return
     setLoading(true)
     setError(null)
-    const fullUrl = url.startsWith('/') ? `http://localhost:8000${url}` : url
+    const fullUrl = url
     fetch(fullUrl)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`)

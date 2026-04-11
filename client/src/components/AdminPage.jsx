@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-const API = 'http://localhost:8000/api'
+const API = '/api'
 const TOKEN_KEY = 'admin_token'
 
 // ── Auth helpers ────────────────────────────────────────────────────────────
