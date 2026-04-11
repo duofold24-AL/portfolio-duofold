@@ -5,31 +5,31 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from dotenv import load_dotenv
+from mangum import Mangum
 
-from .routers import projects, skills, contact
+try:
+    from .routers import projects, skills, contact
+    from .auth import require_admin, ADMIN_PASSWORD, ADMIN_TOKEN
+except ImportError:
+    from routers import projects, skills, contact
+    from auth import require_admin, ADMIN_PASSWORD, ADMIN_TOKEN
 
 load_dotenv()
 
 app = FastAPI(
     title="Portfolio API",
-    description="Backend API for the AL portfolio — React + FastAPI + PostgreSQL",
+    description="Backend API for the AL portfolio",
     version="1.0.0"
 )
 
-# ── CORS ───────────────────────────────────────────────
+# -- CORS -----------------------------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",   # Vite dev server
-        "http://localhost:4173",   # Vite preview
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-from .auth import require_admin, ADMIN_PASSWORD, ADMIN_TOKEN
 
 class LoginRequest(BaseModel):
     password: str
@@ -40,7 +40,7 @@ def admin_login(body: LoginRequest):
         raise HTTPException(status_code=401, detail="Wrong password")
     return {"token": ADMIN_TOKEN}
 
-# ── Routes ─────────────────────────────────────────────
+# -- Routes ---------------------------------------------
 app.include_router(projects.router, prefix="/api")
 app.include_router(skills.router,   prefix="/api")
 app.include_router(contact.router,  prefix="/api")
@@ -50,8 +50,14 @@ app.include_router(contact.router,  prefix="/api")
 def health_check():
     return {"status": "ok", "service": "portfolio-api"}
 
+@app.get("/")
+def read_root():
+    return {"message": "AL Portfolio API is running."}
+
+# This is the entry point for Netlify Functions
+handler = Mangum(app)
 
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run("server.main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
