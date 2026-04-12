@@ -41,25 +41,26 @@ export default function LiquidDropTitle({ text = 'DUOPORTFOLIO', highlight = '' 
         {`
           .${scopeClass} {
             position: relative;
-            display: inline-flex;
+            display: block;
             justify-content: flex-start;
-            width: auto;
-            min-width: max-content;
+            width: 100%;
+            min-width: 0;
             padding: 0;
             isolation: isolate;
           }
 
           .${scopeClass} .liquid-title {
             position: relative;
-            display: inline-block;
+            display: block;
             margin: 0;
-            text-align: center;
+            text-align: left;
             text-transform: uppercase;
-            white-space: nowrap;
-            font-size: clamp(2.2rem, 7vw, 5.5rem);
+            white-space: normal;
+            word-break: break-word;
+            font-size: clamp(1.8rem, 11vw, 5.5rem);
             font-weight: 800;
             line-height: 0.92;
-            letter-spacing: 0.045em;
+            letter-spacing: 0.03em;
             color: transparent;
             -webkit-text-fill-color: transparent;
             -webkit-text-stroke: 0.9px rgba(255, 255, 255, 0.24);
