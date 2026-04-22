@@ -831,6 +831,43 @@ function SkillsTab({ onUnauth }) {
 }
 
 // ── Messages Tab ───────────────────────────────────────────────────────────
+// ── Team Tab ───────────────────────────────────────────────────────────────
+function TeamTab() {
+  const team = [
+    { name: 'Anmol Chaudhary', role: 'Full-Stack Developer', emoji: '⚡', status: 'Active' },
+    { name: 'Loveneesh', role: 'Creative Technologist', emoji: '🎨', status: 'Active' },
+    { name: 'Harshit Khatana', role: 'Videographer & Editor', emoji: '🎬', status: 'Active' },
+  ]
+
+  return (
+    <div className="card">
+      <div className="card-header">
+        <span className="card-title">Team members</span>
+      </div>
+      <div className="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Avatar</th><th>Name</th><th>Role</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            {team.map(m => (
+              <tr key={m.name}>
+                <td style={{ fontSize: 20 }}>{m.emoji}</td>
+                <td style={{ fontWeight: 600 }}>{m.name}</td>
+                <td>{m.role || <span style={{ color: 'var(--muted)', fontStyle: 'italic' }}>Not specified</span>}</td>
+                <td><span className="category-badge" style={{ background: 'rgba(79,255,176,0.1)', borderColor: 'rgba(79,255,176,0.2)', color: 'var(--success)' }}>{m.status}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div style={{ marginTop: 24, padding: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 8, fontSize: 13, color: 'var(--muted)' }}>
+        ℹ️ Team members are currently managed in <code>AboutPage.jsx</code>. Dynamic management Coming Soon.
+      </div>
+    </div>
+  )
+}
+
 function MessagesTab({ onUnauth }) {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
@@ -912,13 +949,14 @@ function OverviewTab({ onNav }) {
         projects: p.status === 'fulfilled' ? p.value.length : '?',
         skills: s.status === 'fulfilled' ? s.value.length : '?',
         messages: m.status === 'fulfilled' ? m.value.length : '?',
+        team: 3 // Hardcoded to 3 for now: Anmol, Loveneesh, Harshit
       })
     })
   }, [])
 
   return (
     <div>
-      <div className="stats-grid">
+      <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
         <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => onNav('projects')}>
           <div className="stat-label">Projects</div>
           <div className="stat-value">{counts.projects}</div>
@@ -926,6 +964,10 @@ function OverviewTab({ onNav }) {
         <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => onNav('skills')}>
           <div className="stat-label">Skills</div>
           <div className="stat-value">{counts.skills}</div>
+        </div>
+        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => onNav('team')}>
+          <div className="stat-label">Team Members</div>
+          <div className="stat-value">{counts.team}</div>
         </div>
         <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => onNav('messages')}>
           <div className="stat-label">Messages</div>
@@ -950,6 +992,7 @@ const TABS = [
   { id: 'overview',  label: 'Overview',  icon: '⬡' },
   { id: 'projects',  label: 'Projects',  icon: '📁' },
   { id: 'skills',    label: 'Skills',    icon: '⚡' },
+  { id: 'team',      label: 'Team',      icon: '👥' },
   { id: 'messages',  label: 'Messages',  icon: '✉️' },
 ]
 
@@ -963,9 +1006,10 @@ export default function AdminPage() {
   const handleUnauth = () => { clearToken(); setAuthed(false) }
 
   const titles = {
-    overview: { h: 'Dashboard', sub: 'Welcome back, AL. Your portfolio at a glance.' },
+    overview: { h: 'Dashboard', sub: 'Welcome back, ALH. Your studio at a glance.' },
     projects: { h: 'Projects', sub: 'Add, edit, and reorder your portfolio projects.' },
     skills:   { h: 'Skills', sub: 'Manage the skills displayed on your About section.' },
+    team:     { h: 'Team Members', sub: 'Manage the personal info and avatars for the ALH team.' },
     messages: { h: 'Messages', sub: 'Contact form submissions from your visitors.' },
   }
 
@@ -985,7 +1029,7 @@ export default function AdminPage() {
         <aside className="sidebar">
           <div className="sidebar-logo">
             <span className="dot" />
-            AL · Admin
+            ALH · Admin
           </div>
           <nav className="sidebar-nav">
             {TABS.map(t => (
@@ -1009,10 +1053,11 @@ export default function AdminPage() {
             <h1>{titles[tab].h}</h1>
             <p>{titles[tab].sub}</p>
           </div>
-          {tab === 'overview'  && <OverviewTab onNav={setTab} />}
-          {tab === 'projects'  && <ProjectsTab onUnauth={handleUnauth} />}
-          {tab === 'skills'    && <SkillsTab   onUnauth={handleUnauth} />}
-          {tab === 'messages'  && <MessagesTab onUnauth={handleUnauth} />}
+          {tab === 'overview' && <OverviewTab onNav={setTab} />}
+          {tab === 'projects' && <ProjectsTab onUnauth={handleUnauth} />}
+          {tab === 'skills'   && <SkillsTab onUnauth={handleUnauth} />}
+          {tab === 'team'     && <TeamTab />}
+          {tab === 'messages' && <MessagesTab onUnauth={handleUnauth} />}
         </main>
       </div>
     </>
