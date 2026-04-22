@@ -16,11 +16,16 @@ export default function About() {
 
           <div className="about-col-text">
             <p className="section-body">
-              We are full-stack developer and creative technologist. I specialise in
+              We are a team of full-stack developers and creative technologists. We specialise in
               building high-performance web applications with a laser focus on user
               experience, micro-interactions, and visual storytelling — powered by
-              React frontends and Python backends.
+              React frontends and Python/Node backends.
             </p>
+            <div style={{ marginTop: '1.5rem' }}>
+              <a href="/about" className="btn btn-ghost" style={{ height: 'auto', width: 'auto', padding: '0.8rem 1.8rem', fontSize: '0.85rem' }}>
+                Meet the Team →
+              </a>
+            </div>
           </div>
 
           <div className="about-col-skills">

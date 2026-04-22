@@ -4,7 +4,7 @@ import HireUsButton from './HireUsButton'
 
 const navItems = [
   { name: 'Home', href: '#hero' },
-  { name: 'About', href: '#about' },
+  { name: 'About', href: '/about' },
   { name: 'Projects', href: '#projects' },
   { name: 'Contact', href: '#contact' },
 ]
@@ -55,7 +55,13 @@ export default function Navbar() {
     e.preventDefault()
     document.body.style.overflow = 'unset'
     setMobileMenuOpen(false)
-    
+
+    // Page-level navigation (not a hash link)
+    if (!href.startsWith('#')) {
+      window.location.href = href
+      return
+    }
+
     const targetId = href.replace('#', '')
     const element = document.getElementById(targetId)
 

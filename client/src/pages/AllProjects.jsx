@@ -41,6 +41,15 @@ export default function AllProjects() {
       tags: ['React', 'Python', 'AI'], 
       live_url: '#',
       image_url: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=600&auto=format&fit=crop'
+    },
+    { 
+      id: 6, 
+      title: 'Commercial Production', 
+      developer: 'Harshit Khatana',
+      description: 'Full-service video production for commercial advertisements, from storyboarding to final post-production.', 
+      tags: ['Videography', 'Creative Direction', 'Blender'], 
+      live_url: '#',
+      image_url: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=600&auto=format&fit=crop'
     }
   ]
 
@@ -67,6 +76,7 @@ export default function AllProjects() {
                   style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '0.4rem', marginBottom: '1.5rem' }} 
                 />
                 <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', color: 'var(--white)' }}>{project.title}</h3>
+                <p style={{ color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.5rem' }}>By {project.developer || 'Team ALH'}</p>
                 <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.6, flexGrow: 1 }}>{project.description}</p>
                 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', margin: '1.5rem 0' }}>

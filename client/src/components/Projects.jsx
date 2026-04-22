@@ -153,6 +153,16 @@ export default function Projects() {
       gradient: 'linear-gradient(135deg,#6a11cb,#2575fc)'
     },
     { 
+      id: 3, 
+      title: 'Cinematic Brand Film', 
+      developer: 'Harshit Khatana',
+      description: 'A high-impact cinematic brand story produced for a luxury lifestyle brand, featuring advanced color grading and precision editing.', 
+      tags: ['Videography', 'Premiere Pro', 'After Effects'], 
+      live_url: '#',
+      image_url: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=600&auto=format&fit=crop',
+      gradient: 'linear-gradient(135deg,#f7971e,#ffd200)'
+    },
+    { 
       id: 6, 
       title: 'Krishna Vasudevaya Elevators', 
       developer: 'Anmol Chaudhary',
@@ -160,7 +170,7 @@ export default function Projects() {
       tags: ['React', 'Three.js', 'Framer Motion'], 
       live_url: 'https://cozy-daifuku-62c431.netlify.app',
       image_url: '/assets/elevator-thumb.png',
-      gradient: 'linear-gradient(135deg,#f7971e,#ffd200)'
+      gradient: 'linear-gradient(135deg,#8e2de2,#4a00e0)'
     }
   ]
 

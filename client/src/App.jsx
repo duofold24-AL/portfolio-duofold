@@ -9,10 +9,12 @@ import LiquidHeroBackground from './components/LiquidHeroBackground'
 
 import AdminPage from './components/AdminPage'
 import AllProjectsPage from './components/AllProjectsPage'
+import AboutPage from './components/AboutPage'
 
 export default function App() {
   const isAdminPath = window.location.pathname === '/admin'
   const isProjectsPath = window.location.pathname === '/projects'
+  const isAboutPath = window.location.pathname === '/about'
 
   if (isAdminPath) {
     return <AdminPage />
@@ -168,8 +170,11 @@ export default function App() {
         <LiquidHeroBackground />
       </div>
 
+
       {isProjectsPath ? (
         <AllProjectsPage />
+      ) : isAboutPath ? (
+        <AboutPage />
       ) : (
         <>
           <Navbar />

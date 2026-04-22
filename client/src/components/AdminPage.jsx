@@ -520,7 +520,7 @@ function LoginScreen({ onLogin }) {
   return (
     <div className="login-root">
       <div className="login-card">
-        <div className="login-logo"><span className="dot" /> AL · Admin</div>
+        <div className="login-logo"><span className="dot" /> ALH · Admin</div>
         <div className="login-sub">Enter your password to continue.</div>
         {error && <div className="login-error">{error}</div>}
         <div className="field">
@@ -666,7 +666,8 @@ function ProjectsTab({ onUnauth }) {
                 <option value="">Select Developer</option>
                 <option value="Anmol Chaudhary">Anmol Chaudhary</option>
                 <option value="Loveneesh">Loveneesh</option>
-                <option value="Collab">Collab</option>
+                <option value="Harshit Khatana">Harshit Khatana</option>
+                <option value="Collab">Collab (ALH)</option>
               </select>
             </div>
             <div className="field"><label>Description</label><textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Short description…" /></div>
