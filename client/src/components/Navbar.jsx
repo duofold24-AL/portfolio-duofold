@@ -5,7 +5,7 @@ import HireUsButton from './HireUsButton'
 const navItems = [
   { name: 'Home', href: '#hero' },
   { name: 'About', href: '/about' },
-  { name: 'Projects', href: '#projects' },
+  { name: 'Projects', href: '/projects' },
   { name: 'Contact', href: '#contact' },
 ]
 
@@ -51,27 +51,27 @@ export default function Navbar() {
     lastMousePos.current = { x: e.clientX, y: e.clientY, time: now }
   }
 
-  const handleMobileLinkClick = (e, href) => {
-    e.preventDefault()
-    document.body.style.overflow = 'unset'
-    setMobileMenuOpen(false)
+  const handleLinkClick = (e, href) => {
+    // Determine if we are on the home page
+    const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html'
 
-    // Page-level navigation (not a hash link)
+    // If it's an external link or a page-level navigation (like /about)
     if (!href.startsWith('#')) {
-      window.location.href = href
-      return
+      return // allow default behavior
     }
 
-    const targetId = href.replace('#', '')
-    const element = document.getElementById(targetId)
-
-    if (element) {
-      // We're on the homepage — smooth scroll to the section
-      setTimeout(() => {
+    // It's a hash link (#hero, #projects, etc.)
+    if (isHomePage) {
+      e.preventDefault()
+      const targetId = href.replace('#', '')
+      const element = document.getElementById(targetId)
+      if (element) {
         element.scrollIntoView({ behavior: 'smooth' })
-      }, 50)
+      }
+      setMobileMenuOpen(false)
+      document.body.style.overflow = 'unset'
     } else {
-      // We're on a different page (e.g. /projects) — navigate home first
+      // Not on home page, so navigate to home + hash
       window.location.href = '/' + href
     }
   }
@@ -96,6 +96,7 @@ export default function Navbar() {
                 href={item.href}
                 className="nav-link-item"
                 onMouseEnter={() => setHoveredIndex(idx)}
+                onClick={(e) => handleLinkClick(e, item.href)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -117,7 +118,7 @@ export default function Navbar() {
           </div>
 
           <div className="hire-us-wrapper mobile-action">
-            <HireUsButton onClick={(e) => handleMobileLinkClick(e, '#contact')} />
+            <HireUsButton onClick={(e) => handleLinkClick(e, '#contact')} />
           </div>
 
           <div className="nav-actions">
@@ -174,13 +175,13 @@ export default function Navbar() {
                   key={item.name}
                   href={item.href}
                   className="mobile-nav-link"
-                  onClick={(e) => handleMobileLinkClick(e, item.href)}
+                  onClick={(e) => handleLinkClick(e, item.href)}
                 >
                   {item.name}
                 </a>
               ))}
               <div className="mobile-menu-footer">
-                <HireUsButton onClick={(e) => handleMobileLinkClick(e, '#contact')} />
+                <HireUsButton onClick={(e) => handleLinkClick(e, '#contact')} />
                 <a
                   href="https://github.com/duofold24-AL/portfolio-duofold"
                   target="_blank"

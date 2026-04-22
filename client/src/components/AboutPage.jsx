@@ -6,7 +6,7 @@ const teamMembers = [
   {
     id: 1,
     name: 'Anmol Chaudhary',
-    role: 'Full-Stack Developer',
+    role: '',
     emoji: '⚡',
     image: '/assets/Anmol Image.jpg',
     gradient: 'linear-gradient(135deg, #EA2E00, #ff7a5a)',
@@ -16,7 +16,7 @@ const teamMembers = [
   {
     id: 2,
     name: 'Loveneesh',
-    role: 'Creative Technologist',
+    role: '',
     emoji: '🎨',
     gradient: 'linear-gradient(135deg, #6a11cb, #2575fc)',
     bio: 'Bridges the gap between design and engineering. Brings life to interfaces through creative coding, animations, and pixel-perfect UI engineering.',
@@ -46,12 +46,67 @@ const cardVariants = {
 export default function AboutPage() {
   return (
     <>
+      <style>
+        {`
+          .about-team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+          }
+
+          .about-cta-container {
+            padding: 4rem 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+          }
+
+          .about-cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+          }
+
+          @media (max-width: 768px) {
+            .about-team-grid {
+              grid-template-columns: 1fr;
+              padding: 0 1rem;
+            }
+            .about-header-top {
+              flex-direction: column !important;
+              align-items: flex-start !important;
+              gap: 1.5rem !important;
+            }
+            .about-cta-container {
+              padding: 3rem 1.5rem;
+            }
+            .about-cta-buttons {
+              flex-direction: column;
+              width: 100%;
+              gap: 1rem;
+            }
+            .about-cta-buttons a {
+              width: 100%;
+              text-align: center;
+              justify-content: center;
+            }
+            main {
+              padding-top: 100px !important;
+            }
+          }
+        `}
+      </style>
       <Navbar />
       <main style={{ paddingTop: '120px', minHeight: 'calc(100vh - 100px)', position: 'relative', zIndex: 1 }}>
         {/* ── Header ── */}
         <section className="section" style={{ paddingBottom: '2rem' }}>
           <div className="section-inner" style={{ maxWidth: '1100px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '3rem' }}>
+            <div className="about-header-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '3rem' }}>
               <div>
                 <span className="section-tag">ABOUT OUR TEAM</span>
                 <h1 className="section-title" style={{ marginTop: '1rem', marginBottom: 0, fontSize: 'clamp(2.5rem, 8vw, 4.5rem)' }}>
@@ -86,14 +141,7 @@ export default function AboutPage() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            style={{
-              maxWidth: '1200px',
-              margin: '0 auto',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-              gap: '3rem',
-              padding: '0 5%'
-            }}
+            className="about-team-grid"
           >
             {teamMembers.map((member) => (
               <motion.div
@@ -175,20 +223,22 @@ export default function AboutPage() {
                 >
                   {member.name}
                 </h2>
-                <p
-                  style={{
-                    fontSize: '0.85rem',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.15em',
-                    color: 'var(--accent)',
-                    marginBottom: '1.5rem',
-                    position: 'relative',
-                    zIndex: 2
-                  }}
-                >
-                  {member.role}
-                </p>
+                {member.role && (
+                  <p
+                    style={{
+                      fontSize: '0.85rem',
+                      fontWeight: 700,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.15em',
+                      color: 'var(--accent)',
+                      marginBottom: '1.5rem',
+                      position: 'relative',
+                      zIndex: 2
+                    }}
+                  >
+                    {member.role}
+                  </p>
+                )}
 
                 {/* Bio */}
                 <p
@@ -223,17 +273,7 @@ export default function AboutPage() {
         {/* ── Studio CTA ── */}
         <section style={{ padding: '0 5% 8rem' }}>
           <div
-            className="glass-container-sharp-corner"
-            style={{
-              maxWidth: '1100px',
-              margin: '0 auto',
-              padding: '4rem 3rem',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              textAlign: 'center',
-              gap: '2rem'
-            }}
+            className="glass-container-sharp-corner about-cta-container"
           >
             <h2 className="section-title" style={{ marginBottom: 0 }}>
               Let's craft something <em>extraordinary</em>
@@ -241,7 +281,7 @@ export default function AboutPage() {
             <p style={{ fontSize: '1.1rem', color: 'var(--muted)', maxWidth: '600px' }}>
               We're currently accepting new projects and creative collaborations. If you have a vision that needs high-end execution, let's talk.
             </p>
-            <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
+            <div className="about-cta-buttons">
               <a href="/#contact" className="btn btn-primary" style={{ height: 'auto', width: 'auto', padding: '1rem 2.5rem' }}>
                 Start a project →
               </a>

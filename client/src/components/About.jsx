@@ -12,6 +12,11 @@ export default function About() {
             <h2 className="section-title">
               Turning ideas into<br /><em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>digital art</em>
             </h2>
+            <div style={{ marginTop: '2rem' }}>
+              <a href="/about" className="btn btn-primary" style={{ height: 'auto', width: 'auto', padding: '0.8rem 1.8rem', fontSize: '0.85rem', textDecoration: 'none' }}>
+                Meet the Team →
+              </a>
+            </div>
           </div>
 
           <div className="about-col-text">
@@ -21,11 +26,7 @@ export default function About() {
               experience, micro-interactions, and visual storytelling — powered by
               React frontends and Python/Node backends.
             </p>
-            <div style={{ marginTop: '1.5rem' }}>
-              <a href="/about" className="btn btn-ghost" style={{ height: 'auto', width: 'auto', padding: '0.8rem 1.8rem', fontSize: '0.85rem' }}>
-                Meet the Team →
-              </a>
-            </div>
+
           </div>
 
           <div className="about-col-skills">
