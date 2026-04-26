@@ -691,6 +691,7 @@ function ContactTab({ onUnauth }) {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
   const [alert, setAlert] = useState(null)
+  const [selectedMessage, setSelectedMessage] = useState(null)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -708,6 +709,7 @@ function ContactTab({ onUnauth }) {
     try {
       const r = await apiFetch(`/contact/${id}`, { method: 'DELETE' })
       if (r.status === 401) { onUnauth(); return }
+      if (selectedMessage && selectedMessage.id === id) setSelectedMessage(null)
       load()
     } catch { setAlert({ type: 'error', msg: 'Archive failed.' }) }
   }
@@ -736,9 +738,14 @@ function ContactTab({ onUnauth }) {
                     </td>
                     <td>
                       <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 4 }}>{m.subject}</div>
-                      <div style={{ fontSize: 12, color: 'var(--muted)', maxWidth: 400, overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.message}</div>
+                      <div style={{ fontSize: 12, color: 'var(--muted)', maxWidth: 400, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.message}</div>
                     </td>
-                    <td><button className="btn btn-danger" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => del(m.id)}>Archive</button></td>
+                    <td>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => setSelectedMessage(m)}>View</button>
+                        <button className="btn btn-danger" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => del(m.id)}>Archive</button>
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -746,6 +753,40 @@ function ContactTab({ onUnauth }) {
           </div>
         )}
       </div>
+
+      {selectedMessage && (
+        <div className="modal-overlay" onClick={e => e.target === e.currentTarget && setSelectedMessage(null)}>
+          <div className="modal">
+            <div className="modal-title">Lead Details</div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
+              <div className="field" style={{ marginBottom: 0 }}><label>Sender Name</label><div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px 16px', borderRadius: 12, border: '1px solid var(--border)' }}>{selectedMessage.name}</div></div>
+              <div className="field" style={{ marginBottom: 0 }}><label>Sender Email</label><div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px 16px', borderRadius: 12, border: '1px solid var(--border)', color: 'var(--accent)' }}>{selectedMessage.email}</div></div>
+            </div>
+
+            <div className="field">
+              <label>Subject / Inquiry Type</label>
+              <div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px 16px', borderRadius: 12, border: '1px solid var(--border)', fontWeight: 600 }}>{selectedMessage.subject}</div>
+            </div>
+
+            <div className="field">
+              <label>Full Message</label>
+              <div style={{ background: 'rgba(255,255,255,0.02)', padding: '16px', borderRadius: 12, border: '1px solid var(--border)', whiteSpace: 'pre-wrap', lineHeight: 1.6, minHeight: '120px' }}>
+                {selectedMessage.message}
+              </div>
+            </div>
+
+            <div style={{ fontSize: 11, color: 'var(--muted)', textAlign: 'right', marginTop: -12 }}>
+              Received: {new Date(selectedMessage.created_at).toLocaleString()}
+            </div>
+
+            <div className="modal-footer">
+              <button className="btn btn-danger" onClick={() => { del(selectedMessage.id); }}>Archive Lead</button>
+              <button className="btn btn-primary" onClick={() => setSelectedMessage(null)}>Close Window</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

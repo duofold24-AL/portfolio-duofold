@@ -1,5 +1,6 @@
 import Navbar from './Navbar'
 import Footer from './Footer'
+import Breadcrumbs from './Breadcrumbs'
 import { motion } from 'framer-motion'
 import { teamMembers } from '../data/team'
 
@@ -77,6 +78,7 @@ export default function AboutPage() {
         {/* ── Header ── */}
         <section className="section" style={{ paddingBottom: '2rem' }}>
           <div className="section-inner" style={{ maxWidth: '1100px', margin: '0 auto' }}>
+            <Breadcrumbs />
             <div className="about-header-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem', marginBottom: '3rem' }}>
               <div>
                 <span className="section-tag">ABOUT OUR TEAM</span>

@@ -2,6 +2,7 @@ import { useFetch } from '../hooks/useFetch'
 import { AllProjectCard } from './Projects'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import Breadcrumbs from './Breadcrumbs'
 
 export default function AllProjectsPage() {
   const { data: projects, loading, error } = useFetch('/api/projects')
@@ -43,9 +44,10 @@ export default function AllProjectsPage() {
   return (
     <>
       <Navbar />
-      <main style={{ paddingTop: '120px', minHeight: 'calc(100vh - 100px)' }}>
+      <main style={{ paddingTop: '100px', minHeight: 'calc(100vh - 100px)' }}>
         <section className="section projects-section" style={{ padding: '0 5%' }}>
           <div className="section-inner" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <Breadcrumbs />
             <span className="section-tag" style={{ display: 'inline-block', marginBottom: '1rem' }}>Complete Portfolio</span>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3rem', flexWrap: 'wrap', gap: '1rem' }}>
               <h1 className="section-title" style={{ marginBottom: 0, fontSize: '3rem' }}>

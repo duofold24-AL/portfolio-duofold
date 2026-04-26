@@ -16,7 +16,7 @@ const AboutPage = lazy(() => import('./components/AboutPage'))
 const MemberPage = lazy(() => import('./components/MemberPage'))
 const HireUsPage = lazy(() => import('./components/HireUsPage'))
 
-import { HeroSkeleton, AboutSkeleton, ProjectSkeleton } from './components/Skeleton'
+import { SkeletonBase, HeroSkeleton, AboutSkeleton, ProjectSkeleton, TestimonialSkeleton, MemberSkeleton, DashboardSkeleton } from './components/Skeleton'
 
 // Loading component for Suspense
 const SectionLoader = ({ type }) => {
@@ -28,18 +28,19 @@ const SectionLoader = ({ type }) => {
       <ProjectSkeleton />
     </div>
   )
+  if (type === 'testimonials') return <TestimonialSkeleton />
+  if (type === 'contact') return (
+    <div className="section">
+      <div className="section-inner">
+        <SkeletonBase width="150px" height="24px" borderRadius="var(--radius-pill)" style={{ marginBottom: '1.5rem' }} />
+        <SkeletonBase width="80%" height="48px" style={{ marginBottom: '3rem' }} />
+        <div className="glass-container-sharp-corner" style={{ height: '500px' }} />
+      </div>
+    </div>
+  )
   return (
-    <div style={{ 
-      height: '200px', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      color: 'var(--muted)',
-      fontSize: '0.8rem',
-      letterSpacing: '0.1em',
-      textTransform: 'uppercase'
-    }}>
-      Loading Section...
+    <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="skeleton" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
     </div>
   )
 }
@@ -190,15 +191,25 @@ export default function App() {
 
       <Suspense fallback={<div className="global-loader" />}>
         {isAdminPath ? (
-          <AdminPage />
+          <Suspense fallback={<DashboardSkeleton />}>
+            <AdminPage />
+          </Suspense>
         ) : isProjectsPath ? (
-          <AllProjectsPage />
+          <Suspense fallback={<div className="section"><div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}><ProjectSkeleton /><ProjectSkeleton /><ProjectSkeleton /></div></div>}>
+            <AllProjectsPage />
+          </Suspense>
         ) : isAboutPath ? (
-          <AboutPage />
+          <Suspense fallback={<AboutSkeleton />}>
+            <AboutPage />
+          </Suspense>
         ) : isMemberPath ? (
-          <MemberPage />
+          <Suspense fallback={<MemberSkeleton />}>
+            <MemberPage />
+          </Suspense>
         ) : isHirePath ? (
-          <HireUsPage />
+          <Suspense fallback={<div className="section"><AboutSkeleton /></div>}>
+            <HireUsPage />
+          </Suspense>
         ) : (
           <>
             <Navbar />
@@ -212,10 +223,10 @@ export default function App() {
               <Suspense fallback={<SectionLoader type="projects" />}>
                 <Projects />
               </Suspense>
-              <Suspense fallback={<SectionLoader />}>
+              <Suspense fallback={<SectionLoader type="testimonials" />}>
                 <Testimonials />
               </Suspense>
-              <Suspense fallback={<SectionLoader />}>
+              <Suspense fallback={<SectionLoader type="contact" />}>
                 <Contact />
               </Suspense>
             </main>

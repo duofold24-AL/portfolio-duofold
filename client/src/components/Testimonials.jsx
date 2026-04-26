@@ -55,6 +55,10 @@ const TestimonialCard = ({ testimonial }) => (
       <img 
         src={testimonial.image} 
         alt={testimonial.name} 
+        loading="lazy"
+        decoding="async"
+        width="48"
+        height="48"
         style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.1)' }} 
       />
       <div>

@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import Breadcrumbs from './Breadcrumbs'
 import { teamMembers } from '../data/team'
 
 export default function MemberPage() {
@@ -62,7 +63,10 @@ export default function MemberPage() {
         `}
       </style>
       <Navbar />
-      <main style={{ paddingTop: '120px', minHeight: 'calc(100vh - 100px)', position: 'relative', zIndex: 1 }}>
+      <main style={{ paddingTop: '100px', minHeight: 'calc(100vh - 100px)', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 5%' }}>
+          <Breadcrumbs />
+        </div>
         <section className="section">
           <div className="member-hero">
             <div className="member-image-wrapper glass-container">

@@ -30,6 +30,21 @@
 
 html { scroll-behavior: smooth; }
 
+/* ── Focus styles: visible for keyboard, hidden for mouse ── */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Improved image defaults ── */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
 body {
   font-family: var(--font-body);
   background: var(--bg);
@@ -47,7 +62,11 @@ body {
   height: 100%;
   z-index: -99;
   background: #060608;
-  filter: none; /* Removed brightness filters to keep it dark as per user request */
+  filter: none;
+  /* Hardware acceleration & Performance hints */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 

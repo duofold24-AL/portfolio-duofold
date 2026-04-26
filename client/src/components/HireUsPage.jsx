@@ -1,13 +1,17 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import Breadcrumbs from './Breadcrumbs'
 import ProjectEstimator from './ProjectEstimator'
 
 export default function HireUsPage() {
   return (
     <>
       <Navbar />
-      <main style={{ paddingTop: '120px', minHeight: 'calc(100vh - 100px)', position: 'relative', zIndex: 1 }}>
+      <main style={{ paddingTop: '100px', minHeight: 'calc(100vh - 100px)', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 5%' }}>
+          <Breadcrumbs />
+        </div>
         <div style={{ paddingBottom: '4rem', paddingLeft: '1rem', paddingRight: '1rem' }}>
             <h1 className="section-title" style={{ marginTop: '1.5rem', marginBottom: '1.5rem', fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', textAlign: 'center' }}>
               Let's craft your next<br /><em style={{ color: 'var(--accent)' }}>digital experience</em>
