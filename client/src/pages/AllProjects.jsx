@@ -8,7 +8,7 @@ export default function AllProjects() {
       description: 'Comprehensive legal services platform featuring secure client onboarding, case management, and seamless integrations.', 
       tags: ['React', 'Firebase', 'Tailwind'], 
       live_url: 'https://edzurelegal.com',
-      image_url: '/assets/edzure_legal.png'
+      image_url: '/assets/edzure_legal.webp'
     },
     { 
       id: 2, 
@@ -16,7 +16,7 @@ export default function AllProjects() {
       description: 'Corporate website for a heavy-machinery and crane service provider featuring dynamic service catalogs.', 
       tags: ['React', 'Node.js', 'PostgreSQL'], 
       live_url: 'https://rsacraneservice.com',
-      image_url: '/assets/rsa_crane.png'
+      image_url: '/assets/rsa_crane.webp'
     },
     { 
       id: 3, 
@@ -24,7 +24,7 @@ export default function AllProjects() {
       description: 'Interactive WebGL product configurator with real-time material and lighting control.', 
       tags: ['Three.js', 'GLSL', 'WebGL'], 
       live_url: '#',
-      image_url: '/assets/3d_visualizer.png'
+      image_url: '/assets/3d_visualizer.webp'
     },
     { 
       id: 4, 
@@ -73,10 +73,11 @@ export default function AllProjects() {
                 <img 
                   src={project.image_url} 
                   alt={project.title} 
+                  loading="lazy"
                   style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '0.4rem', marginBottom: '1.5rem' }} 
                 />
                 <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', color: 'var(--white)' }}>{project.title}</h3>
-                <p style={{ color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.5rem' }}>By {project.developer || 'Team ALH'}</p>
+                <p style={{ color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.5rem' }}>By {project.developer || 'Team HALO'}</p>
                 <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.6, flexGrow: 1 }}>{project.description}</p>
                 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', margin: '1.5rem 0' }}>

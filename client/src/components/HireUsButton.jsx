@@ -60,7 +60,7 @@ export default function HireUsButton({ onClick }) {
       {/* Shared SVG Filter (Invisibly appended to DOM) */}
 
 
-      <a href="#contact" className="hire-btn-wrapper" onClick={onClick}>
+      <a href="/hire" className="hire-btn-wrapper" onClick={onClick}>
         <div className="hire-btn-label">Hire Us</div>
       </a>
     </>

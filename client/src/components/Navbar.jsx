@@ -3,10 +3,8 @@ import { motion, AnimatePresence, useScroll, useVelocity, useTransform, useSprin
 import HireUsButton from './HireUsButton'
 
 const navItems = [
-  { name: 'Home', href: '#hero' },
   { name: 'About', href: '/about' },
   { name: 'Projects', href: '/projects' },
-  { name: 'Contact', href: '#contact' },
 ]
 
 export default function Navbar() {
@@ -86,8 +84,48 @@ export default function Navbar() {
             setHoveredIndex(null)
             setMouseVelocity(0)
           }}
-          style={{ scaleY, transformOrigin: 'top center' }}
+          style={{ 
+            scaleY, 
+            transformOrigin: 'top center',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0 1.5rem'
+          }}
         >
+          {/* Brand Logo / Home Button */}
+          <motion.div 
+            className="nav-brand"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+            onClick={(e) => handleLinkClick(e, '#hero')}
+          >
+            <div className="logo-svg-wrapper" style={{ position: 'relative', width: '32px', height: '32px' }}>
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+                {/* Trifold Triangle Base */}
+                <path d="M50 10L90 80H10L50 10Z" stroke="white" strokeWidth="4" strokeLinejoin="round" opacity="0.3" />
+                {/* Inner Halo Circle */}
+                <circle cx="50" cy="53" r="25" stroke="var(--accent)" strokeWidth="6" strokeDasharray="10 5" />
+                {/* Core Trifold Element */}
+                <path d="M50 25L70 65H30L50 25Z" fill="white" />
+                <path d="M50 15L85 75H15L50 15Z" stroke="white" strokeWidth="2" opacity="0.5" />
+              </svg>
+            </div>
+            <span style={{ 
+              fontSize: '1.1rem', 
+              fontWeight: 900, 
+              letterSpacing: '1px',
+              color: '#fff',
+              textTransform: 'uppercase',
+              fontFamily: 'var(--font-heading)'
+            }}>
+              Trifold-HALO
+            </span>
+          </motion.div>
+
           {/* Desktop Links */}
           <div className="desktop-links">
             {navItems.map((item, idx) => (
@@ -106,7 +144,7 @@ export default function Navbar() {
                     scale: hoveredIndex === idx ? 1.25 : 1,
                     y: hoveredIndex === idx ? -1 : 0,
                     textShadow: mouseVelocity > 5 && hoveredIndex === idx 
-                      ? `-${mouseVelocity/15}px 0 rgba(255,0,0,0.3), ${mouseVelocity/15}px 0 rgba(0,255,255,0.3)`
+                      ? `0 0 ${mouseVelocity/5}px rgba(255,255,255,0.5)`
                       : '0 0 0 rgba(0,0,0,0)'
                   }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -117,13 +155,12 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="hire-us-wrapper mobile-action">
-            <HireUsButton onClick={(e) => handleLinkClick(e, '#contact')} />
-          </div>
-
           <div className="nav-actions">
+            <div className="desktop-only" style={{ marginRight: '1rem' }}>
+              <HireUsButton onClick={(e) => handleLinkClick(e, '/hire')} />
+            </div>
             <a
-              href="https://github.com/duofold24-AL/portfolio-duofold"
+              href="https://github.com/Trifold-HALO/portfolio"
               target="_blank"
               rel="noreferrer"
               className="nav-github-star desktop-only"
@@ -181,9 +218,9 @@ export default function Navbar() {
                 </a>
               ))}
               <div className="mobile-menu-footer">
-                <HireUsButton onClick={(e) => handleLinkClick(e, '#contact')} />
+                <HireUsButton onClick={(e) => handleLinkClick(e, '/hire')} />
                 <a
-                  href="https://github.com/duofold24-AL/portfolio-duofold"
+                  href="https://github.com/Trifold-HALO/portfolio"
                   target="_blank"
                   rel="noreferrer"
                   className="nav-github-star"

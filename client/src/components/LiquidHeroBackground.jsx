@@ -14,32 +14,47 @@ export default function LiquidHeroBackground() {
 
         if (canvasRef.current) {
             appRef.current = LiquidBackground(canvasRef.current);
-            appRef.current.loadImage('/assets/thic-bg.png');
-            appRef.current.liquidPlane.material.metalness = 0.65; 
-            appRef.current.liquidPlane.material.roughness = 0.12; 
+            appRef.current.loadImage('/assets/rock-floor-bg.webp');
+            appRef.current.liquidPlane.material.metalness = 0.55;
+            appRef.current.liquidPlane.material.roughness = 0.35;
+            if (appRef.current.liquidPlane.material.envMapIntensity !== undefined) {
+                appRef.current.liquidPlane.material.envMapIntensity = 0.5;
+            }
             if (appRef.current.liquidPlane.material.uniforms.uFrequency) {
                 appRef.current.liquidPlane.material.uniforms.uFrequency.value = 12.0;
             }
             if (appRef.current.liquidPlane.material.uniforms.displacementScale) {
-                appRef.current.liquidPlane.material.uniforms.displacementScale.value = 4.5; 
+                appRef.current.liquidPlane.material.uniforms.displacementScale.value = 3.5; 
             }
             appRef.current.setRain(false);
 
             // Handle Dynamic Intensity on idle
             let idleTimeout;
-            const handleMovement = () => {
+            const handleMovement = (e) => {
               if (appRef.current && appRef.current.liquidPlane.material.uniforms.displacementScale) {
-                appRef.current.liquidPlane.material.uniforms.displacementScale.value = 8.5; 
+                appRef.current.liquidPlane.material.uniforms.displacementScale.value = 18.0; 
                 
-                appRef.current.liquidPlane.material.metalness = 0.75; 
-                appRef.current.liquidPlane.material.roughness = 0.08;
+                appRef.current.liquidPlane.material.metalness = 0.3; 
+                appRef.current.liquidPlane.material.roughness = 0.55;
 
                 clearTimeout(idleTimeout);
                 idleTimeout = setTimeout(() => {
                   if (appRef.current && appRef.current.liquidPlane.material.uniforms.displacementScale) {
-                    appRef.current.liquidPlane.material.uniforms.displacementScale.value = 0.6; 
+                    appRef.current.liquidPlane.material.uniforms.displacementScale.value = 2.5; 
                   }
                 }, 3000);
+              }
+
+              // Forward mouse coordinates to the canvas so internal liquid1.min.js tracking works
+              // even though the canvas is behind other elements (z-index: -99)
+              if (canvasRef.current && e.target !== canvasRef.current) {
+                const syntheticEvent = new MouseEvent('mousemove', {
+                  clientX: e.clientX,
+                  clientY: e.clientY,
+                  bubbles: false,
+                  cancelable: true
+                });
+                canvasRef.current.dispatchEvent(syntheticEvent);
               }
             };
 
@@ -63,10 +78,14 @@ export default function LiquidHeroBackground() {
   }, []);
 
   return (
-    <canvas 
-      id="canvas-liquid-bg" 
-      ref={canvasRef} 
-      className="liquid-background-canvas"
-    />
+    <div style={{ position: 'fixed', inset: 0, zIndex: -99, pointerEvents: 'none' }}>
+      <canvas 
+        id="canvas-liquid-bg" 
+        ref={canvasRef} 
+        className="liquid-background-canvas"
+      />
+      {/* Edge glare — transparent center, subtle glow on the perimeter */}
+      <div className="liquid-bg-glare" />
+    </div>
   );
 }

@@ -1,32 +1,62 @@
+import React, { Suspense, lazy } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import About from './components/About'
-import Projects from './components/Projects'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
-
 import LiquidHeroBackground from './components/LiquidHeroBackground'
 
-import AdminPage from './components/AdminPage'
-import AllProjectsPage from './components/AllProjectsPage'
-import AboutPage from './components/AboutPage'
+// Lazy load components below the fold
+const About = lazy(() => import('./components/About'))
+const Projects = lazy(() => import('./components/Projects'))
+const Contact = lazy(() => import('./components/Contact'))
+const Footer = lazy(() => import('./components/Footer'))
+const Testimonials = lazy(() => import('./components/Testimonials'))
+
+const AdminPage = lazy(() => import('./components/AdminPage'))
+const AllProjectsPage = lazy(() => import('./components/AllProjectsPage'))
+const AboutPage = lazy(() => import('./components/AboutPage'))
+const MemberPage = lazy(() => import('./components/MemberPage'))
+const HireUsPage = lazy(() => import('./components/HireUsPage'))
+
+import { HeroSkeleton, AboutSkeleton, ProjectSkeleton } from './components/Skeleton'
+
+// Loading component for Suspense
+const SectionLoader = ({ type }) => {
+  if (type === 'about') return <AboutSkeleton />
+  if (type === 'projects') return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
+      <ProjectSkeleton />
+      <ProjectSkeleton />
+      <ProjectSkeleton />
+    </div>
+  )
+  return (
+    <div style={{ 
+      height: '200px', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      color: 'var(--muted)',
+      fontSize: '0.8rem',
+      letterSpacing: '0.1em',
+      textTransform: 'uppercase'
+    }}>
+      Loading Section...
+    </div>
+  )
+}
 
 export default function App() {
   const isAdminPath = window.location.pathname === '/admin'
   const isProjectsPath = window.location.pathname === '/projects'
   const isAboutPath = window.location.pathname === '/about'
-
-  if (isAdminPath) {
-    return <AdminPage />
-  }
+  const isMemberPath = window.location.pathname.startsWith('/member/')
+  const isHirePath = window.location.pathname === '/hire'
 
   return (
     <>
-
       {/* SVG filter definitions — liquid glass effect */}
       <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
-          {/* Bubble/Titles */}
+          {/* ... SVG Filters (kept unchanged for brevity in this thought, but will be included in the tool call) ... */}
           <filter id="bubble-water" x="-20%" y="-20%" width="140%" height="140%">
             <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="1" seed="12" result="bubbles" />
             <feDiffuseLighting in="bubbles" lightingColor="#ffffff" surfaceScale="2" result="diffuse">
@@ -61,14 +91,11 @@ export default function App() {
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-
-          {/* New Liquid Glass Displacement map from user request */}
           <filter id="lg-dist" x="-20%" y="-20%" width="140%" height="140%">
             <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="1" seed="92" result="noise" />
             <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
             <feDisplacementMap in="SourceGraphic" in2="blurred" scale="35" xChannelSelector="R" yChannelSelector="G" />
           </filter>
-
           <filter id="liquid-glass-morph" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
             <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 35 -14" result="goo-solid" />
@@ -100,7 +127,6 @@ export default function App() {
           <filter id="depth-blur" x="-10%" y="-10%" width="120%" height="120%">
             <feGaussianBlur stdDeviation="1.5" />
           </filter>
-
           <filter id="water-ripple">
             <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="2" result="noise" />
             <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.8 0" in="noise" result="coloredNoise" />
@@ -111,38 +137,31 @@ export default function App() {
             <feGaussianBlur in="map" stdDeviation="1.5" result="blur" />
             <feDisplacementMap in="SourceGraphic" in2="blur" id="Greenchannel" result="dispGreen" scale="-50" xChannelSelector="G" yChannelSelector="R" />
           </filter>
-
           <filter id="liquid-glass-two" colorInterpolationFilters="sRGB" x="0%" y="0%" width="100%" height="100%">
             <feImage x="0" y="0" preserveAspectRatio="none" result="map" href="data:image/svg+xml,<svg viewBox='0% 0% 100% 100%' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' x='0' y='0' fill='gray' rx='22' ry='22' stroke='green' stroke-width='5' style='filter: blur(3px) contrast(2)'/></svg>"></feImage>
             <feDisplacementMap in="SourceGraphic" in2="map" id="Greenchannel-two" result="dispGreen" scale="-70" xChannelSelector="G" yChannelSelector="R" />
           </filter>
-
           <filter id="thick-liquid-glass" colorInterpolationFilters="sRGB" x="0%" y="0%" width="100%" height="100%">
             <feImage x="0" y="0" preserveAspectRatio="none" result="map" href="data:image/svg+xml,<svg viewBox='0% 0% 100% 100%' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='red-green-stroke' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='green'/><stop offset='100%' stop-color='green'/></linearGradient></defs><rect width='100%' height='100%' fill='gray' rx='22' ry='22' stroke='url(%23red-green-stroke)' strokeWidth='5' style='filter:blur(5px) contrast(2)'/></svg>"></feImage>
             <feDisplacementMap in="SourceGraphic" in2="map" id="redchannel-one" result="dispRed" scale="-100" xChannelSelector="G" yChannelSelector="R"></feDisplacementMap>
           </filter>
-
           <filter id="melted-liquid-glass-angled" colorInterpolationFilters="sRGB" x="0%" y="0%" width="100%" height="100%">
             <feImage x="0" y="0" preserveAspectRatio="none" result="map" href="data:image/svg+xml,<svg viewBox='0 0 100% 100%' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='red-green-stroke' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='red'/><stop offset='100%' stop-color='green'/></linearGradient></defs><rect width='100%' height='100%' fill='gray' rx='40' ry='40' stroke='url(%23red-green-stroke)' stroke-width='15' style='filter:blur(3px)'/></svg>"></feImage>
             <feDisplacementMap in="SourceGraphic" in2="map" id="redchannel-two" result="dispRed" scale="-50" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
           </filter>
-
           <filter id="liquid-glass-stretchy-angled" colorInterpolationFilters="sRGB" x="0%" y="0%" width="100%" height="100%">
             <feImage x="0" y="0" preserveAspectRatio="none" result="map" href="data:image/svg+xml,<svg viewBox='0% 0% 100% 100%' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='red-green-stroke' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='red'/><stop offset='100%' stop-color='green'/></linearGradient></defs><rect width='100%' height='100%' fill='gray' rx='40' ry='40' stroke='url(%23red-green-stroke)' stroke-width='5' style='filter:blur(3px)'/></svg>"></feImage>
             <feDisplacementMap in="SourceGraphic" in2="map" id="redchannel-three" result="dispRed" scale="-70" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
           </filter>
-
           <filter id="liquid-glass-stretchy-angled-radius-0rem" colorInterpolationFilters="sRGB" x="0%" y="0%" width="100%" height="100%">
             <feImage x="0" y="0" preserveAspectRatio="none" result="map" href="data:image/svg+xml,<svg viewBox='0 0 100% 100%' xmlns='http://www.w3.org/2000/svg'><defs><linearGradient id='red-grad' x1='0%' y1='0%' x2='0%' y2='0%'><stop offset='0%' stop-color='%230000'/><stop offset='100%' stop-color='red'/></linearGradient><linearGradient id='green-grad' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='%230000'/><stop offset='100%' stop-color='green'/></linearGradient></defs><rect rx='0%' ry='0%' width='100%' height='100%' fill='black'/><rect rx='0%' ry='0%' width='100%' height='100%' fill='url(%23red-grad)'/><rect rx='0%' ry='0%' width='100%' height='100%' fill='url(%23green-grad)'/><rect rx='0%' ry='0%' width='100%' height='100%' fill='hsl(0 0% 50% / 1)' style='filter:blur(5px)'/></svg>"></feImage>
             <feDisplacementMap in="SourceGraphic" in2="map" id="redchannel-four" result="dispRed" scale="-100" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
           </filter>
-
           <filter id="goo">
             <feGaussianBlur in="SourceGraphic" stdDeviation="13" result="blur" />
             <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 13 -10" result="goo" />
             <feComposite in="SourceGraphic" in2="goo" operator="atop" />
           </filter>
-
           <filter id="knockout" colorInterpolationFilters="sRGB">
             <feColorMatrix result="knocked" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1 -1 -1 1 0" />
             <feComponentTransfer>
@@ -156,7 +175,6 @@ export default function App() {
               <feFuncB type="table" tableValues="0 0 0 0 0 1 1 1 1 1" />
             </feComponentTransfer>
           </filter>
-
           <filter id="remove-black" colorInterpolationFilters="sRGB">
             <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -255 -255 -255 0 1" result="black-pixels" />
             <feMorphology in="black-pixels" operator="dilate" radius="0.5" result="smoothed" />
@@ -170,23 +188,43 @@ export default function App() {
         <LiquidHeroBackground />
       </div>
 
-
-      {isProjectsPath ? (
-        <AllProjectsPage />
-      ) : isAboutPath ? (
-        <AboutPage />
-      ) : (
-        <>
-          <Navbar />
-          <main>
-            <Hero />
-            <About />
-            <Projects />
-            <Contact />
-          </main>
-          <Footer />
-        </>
-      )}
+      <Suspense fallback={<div className="global-loader" />}>
+        {isAdminPath ? (
+          <AdminPage />
+        ) : isProjectsPath ? (
+          <AllProjectsPage />
+        ) : isAboutPath ? (
+          <AboutPage />
+        ) : isMemberPath ? (
+          <MemberPage />
+        ) : isHirePath ? (
+          <HireUsPage />
+        ) : (
+          <>
+            <Navbar />
+            <main>
+              <Suspense fallback={<HeroSkeleton />}>
+                <Hero />
+              </Suspense>
+              <Suspense fallback={<SectionLoader type="about" />}>
+                <About />
+              </Suspense>
+              <Suspense fallback={<SectionLoader type="projects" />}>
+                <Projects />
+              </Suspense>
+              <Suspense fallback={<SectionLoader />}>
+                <Testimonials />
+              </Suspense>
+              <Suspense fallback={<SectionLoader />}>
+                <Contact />
+              </Suspense>
+            </main>
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
+          </>
+        )}
+      </Suspense>
     </>
   )
 }

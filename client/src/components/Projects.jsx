@@ -11,6 +11,7 @@ function ProjectCard({ project, index }) {
       <img 
         src={project.image_url || `https://picsum.photos/seed/${project.id}/600/400`} 
         alt={project.title} 
+        loading="lazy"
       />
       <div className="content">
         <div className="content-text">
@@ -31,7 +32,7 @@ function ProjectCard({ project, index }) {
           )}
           <div style={{ pointerEvents: 'auto' }}>
             <a
-              href={project.github_url || "https://github.com/duofold24-AL/portfolio-duofold"}
+              href={project.github_url || "https://github.com/Trifold-HALO/portfolio"}
               target="_blank"
               rel="noreferrer"
               style={{
@@ -72,6 +73,7 @@ export function AllProjectCard({ project }) {
         src={project.image_url || `https://picsum.photos/seed/${project.id}/400/300`} 
         alt={project.title} 
         className="all-project-card-img"
+        loading="lazy"
       />
       <h3 className="all-project-card-title">{project.title}</h3>
       <p className="developer-tag-small">By {project.developer}</p>
@@ -139,7 +141,7 @@ export default function Projects() {
       description: 'A prestige Delhi-based law firm specializing in 14 wide-ranging practice areas, featuring premium client management and high-end legal digital solutions.', 
       tags: ['React', 'Firebase', 'Tailwind'], 
       live_url: 'https://edzurelegal.com',
-      image_url: '/assets/edzure-legal-thumb.png',
+      image_url: '/assets/edzure-legal-thumb.webp',
       gradient: 'linear-gradient(135deg,#fb4268,#ff7aa2)'
     },
     { 
@@ -149,7 +151,7 @@ export default function Projects() {
       description: 'Corporate website for a heavy-machinery and crane service provider featuring dynamic service catalogs.', 
       tags: ['React', 'Node.js', 'PostgreSQL'], 
       live_url: 'https://rsacraneservice.com',
-      image_url: '/assets/rsa_crane.png',
+      image_url: '/assets/rsa_crane.webp',
       gradient: 'linear-gradient(135deg,#6a11cb,#2575fc)'
     },
     { 
@@ -169,7 +171,7 @@ export default function Projects() {
       description: 'Corporate showcase for a leading elevator manufacturing company, focusing on high-performance vertical transportation solutions.', 
       tags: ['React', 'Three.js', 'Framer Motion'], 
       live_url: 'https://cozy-daifuku-62c431.netlify.app',
-      image_url: '/assets/elevator-thumb.png',
+      image_url: '/assets/elevator-thumb.webp',
       gradient: 'linear-gradient(135deg,#8e2de2,#4a00e0)'
     }
   ]

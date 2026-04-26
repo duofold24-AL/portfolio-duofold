@@ -1,37 +1,8 @@
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { motion } from 'framer-motion'
+import { teamMembers } from '../data/team'
 
-const teamMembers = [
-  {
-    id: 1,
-    name: 'Anmol Chaudhary',
-    role: '',
-    emoji: '⚡',
-    image: '/assets/Anmol Image.jpg',
-    gradient: 'linear-gradient(135deg, #EA2E00, #ff7a5a)',
-    bio: 'Specialises in building high-performance web apps with React frontends and Node/Python backends. Obsessed with micro-interactions and visual storytelling.',
-    skills: ['React', 'Next.js', 'Node.js', 'Python', 'FastAPI', 'PostgreSQL', 'TypeScript', 'Docker', 'Three.js', 'GSAP', 'Figma', 'WebGL'],
-  },
-  {
-    id: 2,
-    name: 'Loveneesh',
-    role: '',
-    emoji: '🎨',
-    gradient: 'linear-gradient(135deg, #6a11cb, #2575fc)',
-    bio: 'Bridges the gap between design and engineering. Brings life to interfaces through creative coding, animations, and pixel-perfect UI engineering.',
-    skills: ['React', 'Vue.js', 'Framer Motion', 'GSAP', 'CSS / Animations', 'Figma', 'Three.js', 'WebGL', 'UI Design', 'Tailwind', 'Vite', 'Storybook'],
-  },
-  {
-    id: 3,
-    name: 'Harshit Khatana',
-    role: 'Videographer & Editor',
-    emoji: '🎬',
-    gradient: 'linear-gradient(135deg, #f7971e, #ffd200)',
-    bio: 'Crafts compelling visual narratives through cinematic videography and precision editing. Brings ideas to life frame by frame with a sharp eye for rhythm and storytelling.',
-    skills: ['Blender', 'Premiere Pro', 'VN', 'CapCut', 'After Effects', 'Color Grading'],
-  },
-]
 
 const containerVariants = {
   hidden: {},
@@ -144,9 +115,9 @@ export default function AboutPage() {
             className="about-team-grid"
           >
             {teamMembers.map((member) => (
-              <motion.div
-                key={member.id}
-                variants={cardVariants}
+              <a href={`/member/${member.id}`} key={member.id} style={{ textDecoration: 'none', display: 'block' }}>
+                <motion.div
+                  variants={cardVariants}
                 className="glass-container"
                 whileHover={{ y: -10, transition: { duration: 0.3 } }}
                 style={{
@@ -196,6 +167,7 @@ export default function AboutPage() {
                     <img 
                       src={member.image} 
                       alt={member.name} 
+                      loading="lazy"
                       style={{ 
                         width: '100%', 
                         height: '100%', 
@@ -266,6 +238,7 @@ export default function AboutPage() {
                   </div>
                 </div>
               </motion.div>
+              </a>
             ))}
           </motion.div>
         </section>

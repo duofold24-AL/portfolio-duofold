@@ -3,23 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ALH — Creative Studio & Production</title>
-    <meta name="description" content="ALH — Premium creative studio and video production. Crafting immersive digital experiences and cinematic stories." />
+    <title>Trifold-HALO | Creative Studio & Production</title>
+    <meta name="description" content="Trifold-HALO is a premium creative studio by Anmol Chaudhary, Loveneesh & Harshit Khatana. Crafting immersive digital experiences with clean code, bold design, and cinematic storytelling." />
     <meta name="theme-color" content="#0b0b0f" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://alhstudio.com" />
-    <meta property="og:title" content="ALH — Creative Studio & Production" />
-    <meta property="og:description" content="ALH — Premium creative studio and video production. Crafting immersive digital experiences and cinematic stories." />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:url" content="https://trifold-halo.com/" />
+    <meta property="og:title" content="Trifold-HALO | Creative Studio & Production" />
+    <meta property="og:description" content="Premium creative studio crafting immersive digital experiences, clean code, and cinematic storytelling." />
+    <meta property="og:image" content="/og-image.webp" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://alhstudio.com" />
-    <meta property="twitter:title" content="ALH — Creative Studio & Production" />
-    <meta property="twitter:description" content="ALH — Premium creative studio and video production. Crafting immersive digital experiences and cinematic stories." />
-    <meta property="twitter:image" content="/og-image.png" />
+    <meta property="twitter:url" content="https://trifold-halo.com/" />
+    <meta property="twitter:title" content="Trifold-HALO | Creative Studio & Production" />
+    <meta property="twitter:description" content="Premium creative studio crafting immersive digital experiences, clean code, and cinematic storytelling." />
+    <meta property="twitter:image" content="/og-image.webp" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,22 +29,9 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <!--for smoother animation-->
-    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@latest/bundled/lenis.min.js"></script>
     <script>
-      const lenis = new Lenis({
-        lerp: 0.1,
-        syncTouch: true,
-        smoothWheel: true,
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
-      });
-
-      function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
+      // Native smooth scroll — no artificial lag, no stopping between sections
+      document.documentElement.style.scrollBehavior = 'smooth';
     </script>
   </body>
 </html>

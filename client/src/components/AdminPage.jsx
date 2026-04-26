@@ -16,31 +16,42 @@ function apiFetch(path, opts = {}) {
   return fetch(`${API}${path}`, { ...opts, headers })
 }
 
-// ── Palette & theme matching #0b0b0f + #fb4268 accent ──────────────────────
+// ── Palette & theme matching #0b0b0f + Trifold-HALO aesthetic ────────────────
 const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:        #0b0b0f;
-    --surface:   rgba(255,255,255,0.04);
-    --surface-h: rgba(255,255,255,0.07);
-    --border:    rgba(255,255,255,0.08);
+    --bg:        #060608;
+    --surface:   rgba(255, 255, 255, 0.03);
+    --surface-h: rgba(255, 255, 255, 0.06);
+    --border:    rgba(255, 255, 255, 0.08);
     --accent:    #fb4268;
     --accent-d:  #c4304e;
     --accent-g:  linear-gradient(135deg, #fb4268, #ff7aa2);
-    --text:      #e8e8f0;
-    --muted:     rgba(232,232,240,0.45);
-    --danger:    #ff5f5f;
-    --success:   #4fffb0;
+    --text:      #ffffff;
+    --muted:     rgba(255, 255, 255, 0.5);
+    --danger:    #ff4d4d;
+    --success:   #00ff9d;
     --font-head: 'Epilogue', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
-    --radius:    14px;
-    --shadow:    0 8px 32px rgba(251,66,104,0.12);
+    --radius:    16px;
+    --glass:     blur(20px) saturate(180%);
+    --shadow:    0 20px 40px rgba(0, 0, 0, 0.4);
   }
 
-  body { background: var(--bg); color: var(--text); font-family: var(--font-body); }
+  body { 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes logoPulse { 0%, 100% { filter: drop-shadow(0 0 5px var(--accent)); } 50% { filter: drop-shadow(0 0 15px var(--accent)); } }
 
   /* ── Login screen ── */
   .login-root {
@@ -48,445 +59,303 @@ const css = `
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg);
-    position: relative;
-  }
-  .login-root::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(251,66,104,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 50% at 10% 80%, rgba(120,40,180,0.05) 0%, transparent 55%);
-    pointer-events: none;
+    background: radial-gradient(circle at center, #0f0f1a 0%, var(--bg) 100%);
+    padding: 20px;
   }
   .login-card {
-    position: relative;
-    z-index: 1;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
-    padding: 48px 40px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 56px 48px;
     width: 100%;
-    max-width: 380px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    max-width: 420px;
+    backdrop-filter: var(--glass);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .login-logo {
     font-family: var(--font-head);
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 900;
-    letter-spacing: -0.5px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .login-logo .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent-g);
-    box-shadow: 0 0 8px var(--accent);
-    animation: pulse 2s ease-in-out infinite;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    text-align: center;
+    background: linear-gradient(to right, #fff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .login-sub {
     color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 32px;
+    font-size: 14px;
+    margin-bottom: 40px;
+    text-align: center;
   }
   .login-error {
-    background: rgba(255,95,95,0.1);
-    border: 1px solid rgba(255,95,95,0.25);
+    background: rgba(255,77,77,0.1);
+    border: 1px solid rgba(255,77,77,0.2);
     color: var(--danger);
-    border-radius: 8px;
-    padding: 10px 14px;
+    border-radius: 12px;
+    padding: 12px 16px;
     font-size: 13px;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+    text-align: center;
   }
 
+  /* ── Admin Layout ── */
   .admin-root {
+    display: grid;
+    grid-template-columns: 280px 1fr;
     min-height: 100vh;
-    display: flex;
-    background: var(--bg);
-    font-family: var(--font-body);
-    position: relative;
   }
 
-  /* ── Animated background glow ── */
-  .admin-root::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(251,66,104,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 50% at 10% 80%, rgba(120,40,180,0.05) 0%, transparent 55%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── Sidebar ── */
   .sidebar {
-    width: 240px;
-    min-height: 100vh;
-    background: rgba(255,255,255,0.025);
+    background: rgba(255, 255, 255, 0.01);
     border-right: 1px solid var(--border);
+    padding: 40px 24px;
     display: flex;
     flex-direction: column;
-    padding: 32px 0;
+    backdrop-filter: var(--glass);
     position: sticky;
     top: 0;
     height: 100vh;
-    z-index: 10;
-    backdrop-filter: blur(12px);
   }
 
   .sidebar-logo {
     font-family: var(--font-head);
     font-weight: 900;
-    font-size: 22px;
-    letter-spacing: -0.5px;
-    padding: 0 28px 32px;
-    border-bottom: 1px solid var(--border);
+    font-size: 20px;
+    margin-bottom: 48px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
   .sidebar-logo .dot {
-    width: 8px; height: 8px;
+    width: 10px; height: 10px;
     border-radius: 50%;
-    background: var(--accent-g);
-    box-shadow: 0 0 8px var(--accent);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(0.85); }
-  }
-
-  .sidebar-nav {
-    flex: 1;
-    padding: 20px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    background: var(--accent);
+    animation: logoPulse 2s infinite;
   }
 
   .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-radius: 10px;
+    padding: 12px 16px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--muted);
     transition: all 0.2s ease;
-    border: 1px solid transparent;
-    user-select: none;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
-  .nav-item:hover { background: var(--surface-h); color: var(--text); }
+  .nav-item:hover { background: var(--surface-h); color: #fff; }
   .nav-item.active {
-    background: rgba(251,66,104,0.1);
-    border-color: rgba(251,66,104,0.2);
-    color: var(--accent);
+    background: var(--surface-h);
+    color: #fff;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
   }
-  .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
-
-  .sidebar-footer {
-    padding: 20px 28px;
-    border-top: 1px solid var(--border);
-    font-size: 12px;
-    color: var(--muted);
+  .nav-item.active::after {
+    content: '';
+    margin-left: auto;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
   }
 
-  /* ── Main content ── */
   .admin-main {
-    flex: 1;
-    padding: 40px 48px;
-    position: relative;
-    z-index: 1;
-    overflow-y: auto;
+    padding: 60px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    animation: fadeIn 0.8s ease;
   }
 
-  .page-header {
-    margin-bottom: 36px;
-  }
+  .page-header { margin-bottom: 48px; }
   .page-header h1 {
     font-family: var(--font-head);
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--text), var(--muted));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    margin-bottom: 8px;
   }
-  .page-header p { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .page-header p { color: var(--muted); font-size: 16px; }
 
-  /* ── Glass card ── */
+  /* ── UI Components ── */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px;
-    backdrop-filter: blur(8px);
-    transition: border-color 0.2s;
+    border-radius: 24px;
+    padding: 32px;
+    backdrop-filter: var(--glass);
+    box-shadow: var(--shadow);
   }
-  .card:hover { border-color: rgba(255,255,255,0.14); }
-
   .card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
   }
-  .card-title {
-    font-family: var(--font-head);
-    font-size: 16px;
-    font-weight: 700;
-  }
+  .card-title { font-family: var(--font-head); font-size: 18px; font-weight: 800; }
 
-  /* ── Buttons ── */
   .btn {
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
+    gap: 8px;
     border: none;
-    transition: all 0.18s ease;
     font-family: var(--font-body);
   }
   .btn-primary {
-    background: var(--accent-g);
-    color: #fff;
-    box-shadow: 0 2px 12px rgba(251,66,104,0.3);
+    background: #fff;
+    color: #000;
   }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(251,66,104,0.45); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
   .btn-ghost {
-    background: var(--surface-h);
-    color: var(--text);
+    background: rgba(255,255,255,0.05);
+    color: #fff;
     border: 1px solid var(--border);
   }
-  .btn-ghost:hover { border-color: rgba(255,255,255,0.2); }
-  .btn-danger { background: rgba(255,95,95,0.15); color: var(--danger); border: 1px solid rgba(255,95,95,0.2); }
-  .btn-danger:hover { background: rgba(255,95,95,0.25); }
-  .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
-  .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+  .btn-danger {
+    background: rgba(255, 77, 77, 0.1);
+    color: var(--danger);
+    border: 1px solid rgba(255, 77, 77, 0.2);
+  }
+  .btn-danger:hover { background: rgba(255, 77, 77, 0.2); }
 
   /* ── Table ── */
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .table-wrap { overflow: hidden; border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; }
   th {
     text-align: left;
-    padding: 10px 14px;
-    color: var(--muted);
+    padding: 16px;
     font-size: 11px;
-    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 1px;
+    color: var(--muted);
     border-bottom: 1px solid var(--border);
+    font-weight: 700;
   }
   td {
-    padding: 14px;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    padding: 20px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
     vertical-align: middle;
   }
   tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--surface-h); }
+  tr:hover td { background: rgba(255,255,255,0.02); }
 
-  /* ── Tags / pills ── */
-  .tag {
-    display: inline-block;
-    padding: 2px 8px;
+  /* ── Stats ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 40px; }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 20px;
-    font-size: 11px;
-    font-weight: 500;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid var(--border);
-    margin: 2px 2px 2px 0;
-    color: var(--muted);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
+  .stat-label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .stat-value { font-family: var(--font-head); font-size: 44px; font-weight: 900; color: #fff; }
 
-  .gradient-swatch {
-    width: 36px; height: 20px;
-    border-radius: 4px;
-    display: inline-block;
-    vertical-align: middle;
+  /* ── Forms ── */
+  .field { margin-bottom: 24px; }
+  .field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+  .field input, .field textarea, .field select {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
     border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .field input:focus, .field textarea:focus {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.2);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.05);
   }
 
   /* ── Modal ── */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px);
-    z-index: 100;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    animation: fadeIn 0.15s ease;
+    padding: 24px;
   }
-  @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-
   .modal {
-    background: #12121a;
+    background: #0d0d12;
     border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 36px;
+    border-radius: 28px;
+    padding: 48px;
     width: 100%;
-    max-width: 520px;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
-    animation: slideUp 0.2s ease;
+    max-width: 600px;
+    box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     max-height: 90vh;
     overflow-y: auto;
   }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: translateY(0) } }
+  .modal-title { font-family: var(--font-head); font-size: 24px; font-weight: 900; margin-bottom: 32px; letter-spacing: -0.5px; }
+  .modal-footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px; }
 
-  .modal-title {
-    font-family: var(--font-head);
-    font-size: 20px;
-    font-weight: 800;
-    margin-bottom: 24px;
-  }
-  .modal-footer { display: flex; gap: 10px; justify-content: flex-end; margin-top: 28px; }
+  /* ── Misc ── */
+  .tag { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+  .loader { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 100px; color: var(--muted); }
+  .spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Form inputs ── */
-  .field { margin-bottom: 18px; }
-  .field label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 7px;
-  }
-  .field input,
-  .field textarea,
-  .field select {
-    width: 100%;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 13px;
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .field input:focus,
-  .field textarea:focus,
-  .field select:focus {
-    border-color: rgba(251,66,104,0.5);
-    box-shadow: 0 0 0 3px rgba(251,66,104,0.1);
-  }
-  .field textarea { resize: vertical; min-height: 80px; }
-  .field select option { background: #12121a; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
 
-  /* ── Stats row ── */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-  .stat-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 22px 24px;
-    backdrop-filter: blur(8px);
-  }
-  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
-  .stat-value {
-    font-family: var(--font-head);
-    font-size: 36px;
-    font-weight: 900;
-    margin-top: 4px;
-    background: var(--accent-g);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* ── Alert ── */
-  .alert {
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .alert-success { background: rgba(79,255,176,0.1); border: 1px solid rgba(79,255,176,0.25); color: var(--success); }
-  .alert-error { background: rgba(255,95,95,0.1); border: 1px solid rgba(255,95,95,0.25); color: var(--danger); }
-
-  /* ── Loader ── */
-  .loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 48px;
-    color: var(--muted);
-    font-size: 14px;
-    gap: 10px;
-  }
-  .spinner {
-    width: 18px; height: 18px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg) } }
-
-  .empty { text-align: center; padding: 48px; color: var(--muted); font-size: 14px; }
-
-  .truncate { max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-  .link-icon { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.15s; }
-  .link-icon:hover { color: var(--accent); }
-
-  .row-actions { display: flex; gap: 6px; align-items: center; }
-
-  .category-badge {
-    padding: 3px 9px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    background: rgba(251,66,104,0.1);
-    border: 1px solid rgba(251,66,104,0.2);
-    color: var(--accent);
-  }
-
-  .message-body {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.6;
-    max-width: 300px;
+  @media (max-width: 1024px) {
+    .admin-root { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .admin-main { padding: 40px 24px; }
   }
 `
 
 // ── Utility ────────────────────────────────────────────────────────────────
 const Alert = ({ type, msg, onClose }) => (
-  <div className={`alert alert-${type}`}>
+  <div className={`alert alert-${type}`} style={{
+    padding: '12px 16px',
+    borderRadius: '12px',
+    fontSize: '13px',
+    marginBottom: '24px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    background: type === 'success' ? 'rgba(0,255,157,0.1)' : 'rgba(255,77,77,0.1)',
+    border: type === 'success' ? '1px solid rgba(0,255,157,0.2)' : '1px solid rgba(255,77,77,0.2)',
+    color: type === 'success' ? 'var(--success)' : 'var(--danger)'
+  }}>
     <span>{type === 'success' ? '✓' : '✕'}</span>
-    {msg}
-    <button onClick={onClose} style={{ marginLeft: 'auto', background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: 16 }}>×</button>
+    <span style={{ flex: 1 }}>{msg}</span>
+    <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', fontSize: 18, opacity: 0.6 }}>×</button>
   </div>
 )
 
 const Loader = () => (
-  <div className="loader"><div className="spinner" /> Loading…</div>
+  <div className="loader"><div className="spinner" /> <span>Loading workspace…</span></div>
 )
 
 // ── Login Screen ────────────────────────────────────────────────────────────
@@ -505,12 +374,12 @@ function LoginScreen({ onLogin }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
       })
-      if (!r.ok) { setError('Wrong password. Try again.'); setLoading(false); return }
+      if (!r.ok) { setError('Access denied. Invalid credentials.'); setLoading(false); return }
       const { token } = await r.json()
       saveToken(token)
       onLogin()
     } catch {
-      setError('Could not reach the API. Is the backend running?')
+      setError('Connection failed. Backend is offline.')
     }
     setLoading(false)
   }
@@ -520,11 +389,11 @@ function LoginScreen({ onLogin }) {
   return (
     <div className="login-root">
       <div className="login-card">
-        <div className="login-logo"><span className="dot" /> ALH · Admin</div>
-        <div className="login-sub">Enter your password to continue.</div>
+        <div className="login-logo">Trifold-HALO</div>
+        <div className="login-sub">Secure Authentication Required</div>
         {error && <div className="login-error">{error}</div>}
         <div className="field">
-          <label>Password</label>
+          <label>Root Password</label>
           <input
             type="password"
             value={password}
@@ -534,8 +403,8 @@ function LoginScreen({ onLogin }) {
             autoFocus
           />
         </div>
-        <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '11px' }} onClick={submit} disabled={loading}>
-          {loading ? 'Signing in…' : 'Sign in →'}
+        <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', height: '48px' }} onClick={submit} disabled={loading}>
+          {loading ? 'Verifying…' : 'Enter Workspace →'}
         </button>
       </div>
     </div>
@@ -615,36 +484,37 @@ function ProjectsTab({ onUnauth }) {
       {alert && <Alert {...alert} onClose={() => setAlert(null)} />}
       <div className="card">
         <div className="card-header">
-          <span className="card-title">All Projects</span>
-          <button className="btn btn-primary" onClick={openAdd}>+ Add Project</button>
+          <span className="card-title">Production Projects</span>
+          <button className="btn btn-primary" onClick={openAdd}>+ New Project</button>
         </div>
-        {loading ? <Loader /> : projects.length === 0 ? <div className="empty">No projects yet.</div> : (
+        {loading ? <Loader /> : projects.length === 0 ? <div className="empty" style={{ textAlign: 'center', padding: '60px', color: 'var(--muted)' }}>No production assets found.</div> : (
           <div className="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>#</th><th>Title</th><th>Tags</th><th>Gradient</th><th>Links</th><th>Order</th><th>Actions</th>
+                  <th>Ref</th><th>Title</th><th>Stack</th><th>Style</th><th>Live</th><th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {projects.map(p => (
                   <tr key={p.id}>
-                    <td style={{ color: 'var(--muted)', fontSize: 12 }}>{p.id}</td>
+                    <td style={{ color: 'var(--muted)', fontSize: 11, fontVariantNumeric: 'tabular-nums' }}>#{p.id}</td>
                     <td>
-                      <div style={{ fontWeight: 600 }}>{p.title}</div>
-                      <div className="truncate" style={{ color: 'var(--muted)', fontSize: 12, marginTop: 2 }}>{p.description}</div>
+                      <div style={{ fontWeight: 700, fontSize: 15 }}>{p.title}</div>
+                      <div style={{ color: 'var(--muted)', fontSize: 12, marginTop: 4, maxWidth: 300, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.description}</div>
                     </td>
-                    <td>{p.tags?.map(t => <span className="tag" key={t}>{t}</span>)}</td>
-                    <td><span className="gradient-swatch" style={{ background: p.gradient }} /></td>
+                    <td><div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>{p.tags?.map(t => <span className="tag" key={t}>{t}</span>)}</div></td>
+                    <td><div style={{ width: 40, height: 24, borderRadius: 6, background: p.gradient, border: '1px solid rgba(255,255,255,0.1)' }} /></td>
                     <td>
-                      {p.live_url && <a href={p.live_url} target="_blank" rel="noreferrer" className="link-icon" title="Live">🌐 </a>}
-                      {p.github_url && <a href={p.github_url} target="_blank" rel="noreferrer" className="link-icon" title="GitHub">🐙</a>}
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        {p.live_url && <a href={p.live_url} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', opacity: 0.6 }}>🌐</a>}
+                        {p.github_url && <a href={p.github_url} target="_blank" rel="noreferrer" style={{ textDecoration: 'none', opacity: 0.6 }}>🐙</a>}
+                      </div>
                     </td>
-                    <td style={{ color: 'var(--muted)' }}>{p.display_order}</td>
                     <td>
-                      <div className="row-actions">
-                        <button className="btn btn-ghost btn-sm" onClick={() => openEdit(p)}>Edit</button>
-                        <button className="btn btn-danger btn-sm" onClick={() => del(p.id)}>Delete</button>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => openEdit(p)}>Edit</button>
+                        <button className="btn btn-danger" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => del(p.id)}>Del</button>
                       </div>
                     </td>
                   </tr>
@@ -658,55 +528,53 @@ function ProjectsTab({ onUnauth }) {
       {modal && (
         <div className="modal-overlay" onClick={e => e.target === e.currentTarget && setModal(null)}>
           <div className="modal">
-            <div className="modal-title">{modal === 'edit' ? 'Edit Project' : 'New Project'}</div>
-            <div className="field"><label>Title</label><input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="Project name" /></div>
+            <div className="modal-title">{modal === 'edit' ? 'Update Project' : 'Register New Project'}</div>
+            <div className="field"><label>Project Title</label><input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="Asset name" /></div>
             <div className="field">
-              <label>Developer</label>
+              <label>Lead Developer</label>
               <select value={form.developer} onChange={e => setForm(f => ({ ...f, developer: e.target.value }))}>
-                <option value="">Select Developer</option>
+                <option value="">Assign Lead</option>
                 <option value="Anmol Chaudhary">Anmol Chaudhary</option>
                 <option value="Loveneesh">Loveneesh</option>
                 <option value="Harshit Khatana">Harshit Khatana</option>
-                <option value="Collab">Collab (ALH)</option>
+                <option value="Collab">Trifold-HALO (Team)</option>
               </select>
             </div>
-            <div className="field"><label>Description</label><textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Short description…" /></div>
-            <div className="field"><label>Tags (comma-separated)</label><input value={form.tags} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))} placeholder="React, TypeScript, Tailwind" /></div>
+            <div className="field"><label>Core Description</label><textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Brief summary of the work…" /></div>
+            <div className="field"><label>Technology Stack (Comma separated)</label><input value={form.tags} onChange={e => setForm(f => ({ ...f, tags: e.target.value }))} placeholder="React, Three.js, GSAP" /></div>
             <div className="field">
-              <label>Gradient</label>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>
+              <label>Brand Gradient</label>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 12 }}>
                 {GRADIENT_OPTIONS.map(g => (
                   <div key={g} onClick={() => setForm(f => ({ ...f, gradient: g }))}
-                    style={{ width: 36, height: 36, borderRadius: 8, background: g, cursor: 'pointer', border: form.gradient === g ? '2px solid var(--accent)' : '2px solid transparent', transition: 'border 0.15s' }} />
+                    style={{ width: 32, height: 32, borderRadius: 10, background: g, cursor: 'pointer', border: form.gradient === g ? '2px solid #fff' : '2px solid transparent', transform: form.gradient === g ? 'scale(1.1)' : 'scale(1)', transition: 'all 0.2s' }} />
                 ))}
               </div>
-              <input value={form.gradient} onChange={e => setForm(f => ({ ...f, gradient: e.target.value }))} placeholder="Or paste custom gradient CSS" />
+              <input value={form.gradient} onChange={e => setForm(f => ({ ...f, gradient: e.target.value }))} placeholder="Custom CSS Gradient" />
             </div>
-            <div className="field"><label>Live URL</label><input value={form.live_url} onChange={e => setForm(f => ({ ...f, live_url: e.target.value }))} placeholder="https://…" /></div>
-            <div className="field"><label>GitHub URL</label><input value={form.github_url} onChange={e => setForm(f => ({ ...f, github_url: e.target.value }))} placeholder="https://github.com/…" /></div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="field"><label>Live Preview</label><input value={form.live_url} onChange={e => setForm(f => ({ ...f, live_url: e.target.value }))} placeholder="https://…" /></div>
+              <div className="field"><label>Source Code</label><input value={form.github_url} onChange={e => setForm(f => ({ ...f, github_url: e.target.value }))} placeholder="https://github.com/…" /></div>
+            </div>
             <div className="field">
-              <label>Project Image (File or URL)</label>
-              <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '8px' }}>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  onChange={e => {
+              <label>Hero Image</label>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 10 }}>
+                <input type="file" accept="image/*" onChange={e => {
                     const file = e.target.files[0]
                     if (!file) return
                     const reader = new FileReader()
                     reader.onload = (rev) => setForm(f => ({ ...f, image_url: rev.target.result }))
                     reader.readAsDataURL(file)
                   }} 
-                  style={{ fontSize: '12px' }}
+                  style={{ fontSize: 11, background: 'none', border: 'none', padding: 0 }}
                 />
-                {form.image_url && <img src={form.image_url} alt="Preview" style={{ width: 40, height: 40, borderRadius: 4, objectFit: 'cover', border: '1px solid var(--border)' }} />}
+                {form.image_url && <img src={form.image_url} alt="Preview" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover', border: '1px solid var(--border)' }} />}
               </div>
-              <input value={form.image_url} onChange={e => setForm(f => ({ ...f, image_url: e.target.value }))} placeholder="Or paste image URL" />
+              <input value={form.image_url} onChange={e => setForm(f => ({ ...f, image_url: e.target.value }))} placeholder="External Image URL" />
             </div>
-            <div className="field"><label>Display Order</label><input type="number" value={form.display_order} onChange={e => setForm(f => ({ ...f, display_order: e.target.value }))} /></div>
             <div className="modal-footer">
-              <button className="btn btn-ghost" onClick={() => setModal(null)}>Cancel</button>
-              <button className="btn btn-primary" onClick={save} disabled={saving}>{saving ? 'Saving…' : 'Save Project'}</button>
+              <button className="btn btn-ghost" onClick={() => setModal(null)}>Discard</button>
+              <button className="btn btn-primary" onClick={save} disabled={saving}>{saving ? 'Processing…' : 'Finalize Project'}</button>
             </div>
           </div>
         </div>
@@ -738,8 +606,6 @@ function SkillsTab({ onUnauth }) {
 
   useEffect(() => { load() }, [load])
 
-  const categories = [...new Set(skills.map(s => s.category))].sort()
-
   const openAdd = () => { setForm(emptySkill); setEditId(null); setModal(true) }
   const openEdit = (s) => { setForm({ name: s.name, category: s.category, icon: s.icon || '' }); setEditId(s.id); setModal(true) }
 
@@ -751,21 +617,21 @@ function SkillsTab({ onUnauth }) {
       const r = await apiFetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
       if (r.status === 401) { onUnauth(); return }
       if (!r.ok) throw new Error()
-      setAlert({ type: 'success', msg: `Skill ${editId ? 'updated' : 'created'}!` })
+      setAlert({ type: 'success', msg: `Capability ${editId ? 'updated' : 'added'} successfully.` })
       setModal(false)
       load()
-    } catch { setAlert({ type: 'error', msg: 'Save failed.' }) }
+    } catch { setAlert({ type: 'error', msg: 'Action failed.' }) }
     setSaving(false)
   }
 
   const del = async (id) => {
-    if (!confirm('Delete this skill?')) return
+    if (!confirm('Permanently remove this capability?')) return
     try {
       const r = await apiFetch(`/skills/${id}`, { method: 'DELETE' })
       if (r.status === 401) { onUnauth(); return }
-      setAlert({ type: 'success', msg: 'Skill deleted.' })
+      setAlert({ type: 'success', msg: 'Skill removed.' })
       load()
-    } catch { setAlert({ type: 'error', msg: 'Delete failed.' }) }
+    } catch { setAlert({ type: 'error', msg: 'Removal failed.' }) }
   }
 
   return (
@@ -773,26 +639,25 @@ function SkillsTab({ onUnauth }) {
       {alert && <Alert {...alert} onClose={() => setAlert(null)} />}
       <div className="card">
         <div className="card-header">
-          <span className="card-title">All Skills</span>
+          <span className="card-title">Technical Capabilities</span>
           <button className="btn btn-primary" onClick={openAdd}>+ Add Skill</button>
         </div>
-        {loading ? <Loader /> : skills.length === 0 ? <div className="empty">No skills yet.</div> : (
+        {loading ? <Loader /> : (
           <div className="table-wrap">
             <table>
               <thead>
-                <tr><th>#</th><th>Icon</th><th>Skill Name</th><th>Category</th><th>Actions</th></tr>
+                <tr><th>Icon</th><th>Capability</th><th>Category</th><th>Actions</th></tr>
               </thead>
               <tbody>
                 {skills.map(s => (
                   <tr key={s.id}>
-                    <td style={{ color: 'var(--muted)', fontSize: 12 }}>{s.id}</td>
-                    <td style={{ fontSize: 18 }}>{s.icon || '⚡'}</td>
-                    <td style={{ fontWeight: 600 }}>{s.name}</td>
-                    <td><span className="category-badge">{s.category}</span></td>
+                    <td style={{ fontSize: 20 }}>{s.icon || '⚡'}</td>
+                    <td style={{ fontWeight: 700 }}>{s.name}</td>
+                    <td><span style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: 1, fontWeight: 700 }}>{s.category}</span></td>
                     <td>
-                      <div className="row-actions">
-                        <button className="btn btn-ghost btn-sm" onClick={() => openEdit(s)}>Edit</button>
-                        <button className="btn btn-danger btn-sm" onClick={() => del(s.id)}>Delete</button>
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => openEdit(s)}>Edit</button>
+                        <button className="btn btn-danger" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => del(s.id)}>Remove</button>
                       </div>
                     </td>
                   </tr>
@@ -806,22 +671,13 @@ function SkillsTab({ onUnauth }) {
       {modal && (
         <div className="modal-overlay" onClick={e => e.target === e.currentTarget && setModal(false)}>
           <div className="modal">
-            <div className="modal-title">{editId ? 'Edit Skill' : 'New Skill'}</div>
-            <div className="field"><label>Skill Name</label><input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. TypeScript" /></div>
-            <div className="field">
-              <label>Category</label>
-              <input value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} placeholder="e.g. Frontend, Backend, DevOps…" list="cat-suggestions" />
-              <datalist id="cat-suggestions">
-                {categories.map(c => <option key={c} value={c} />)}
-              </datalist>
-            </div>
-            <div className="field">
-              <label>Icon (Emoji or URL)</label>
-              <input value={form.icon} onChange={e => setForm(f => ({ ...f, icon: e.target.value }))} placeholder="e.g. ⚛️ or https://…" />
-            </div>
+            <div className="modal-title">Configure Capability</div>
+            <div className="field"><label>Skill Name</label><input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. React" /></div>
+            <div className="field"><label>Classification</label><input value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} placeholder="e.g. Frontend" /></div>
+            <div className="field"><label>Visual Icon (Emoji or SVG Path)</label><input value={form.icon} onChange={e => setForm(f => ({ ...f, icon: e.target.value }))} placeholder="⚡" /></div>
             <div className="modal-footer">
               <button className="btn btn-ghost" onClick={() => setModal(false)}>Cancel</button>
-              <button className="btn btn-primary" onClick={save} disabled={saving}>{saving ? 'Saving…' : 'Save Skill'}</button>
+              <button className="btn btn-primary" onClick={save} disabled={saving}>Save Config</button>
             </div>
           </div>
         </div>
@@ -830,45 +686,8 @@ function SkillsTab({ onUnauth }) {
   )
 }
 
-// ── Messages Tab ───────────────────────────────────────────────────────────
-// ── Team Tab ───────────────────────────────────────────────────────────────
-function TeamTab() {
-  const team = [
-    { name: 'Anmol Chaudhary', role: 'Full-Stack Developer', emoji: '⚡', status: 'Active' },
-    { name: 'Loveneesh', role: 'Creative Technologist', emoji: '🎨', status: 'Active' },
-    { name: 'Harshit Khatana', role: 'Videographer & Editor', emoji: '🎬', status: 'Active' },
-  ]
-
-  return (
-    <div className="card">
-      <div className="card-header">
-        <span className="card-title">Team members</span>
-      </div>
-      <div className="table-wrap">
-        <table>
-          <thead>
-            <tr><th>Avatar</th><th>Name</th><th>Role</th><th>Status</th></tr>
-          </thead>
-          <tbody>
-            {team.map(m => (
-              <tr key={m.name}>
-                <td style={{ fontSize: 20 }}>{m.emoji}</td>
-                <td style={{ fontWeight: 600 }}>{m.name}</td>
-                <td>{m.role || <span style={{ color: 'var(--muted)', fontStyle: 'italic' }}>Not specified</span>}</td>
-                <td><span className="category-badge" style={{ background: 'rgba(79,255,176,0.1)', borderColor: 'rgba(79,255,176,0.2)', color: 'var(--success)' }}>{m.status}</span></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div style={{ marginTop: 24, padding: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 8, fontSize: 13, color: 'var(--muted)' }}>
-        ℹ️ Team members are currently managed in <code>AboutPage.jsx</code>. Dynamic management Coming Soon.
-      </div>
-    </div>
-  )
-}
-
-function MessagesTab({ onUnauth }) {
+// ── Contact Tab ────────────────────────────────────────────────────────────
+function ContactTab({ onUnauth }) {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
   const [alert, setAlert] = useState(null)
@@ -877,23 +696,20 @@ function MessagesTab({ onUnauth }) {
     setLoading(true)
     try {
       const r = await apiFetch('/contact')
-      if (r.status === 401) { onUnauth(); return }
-      if (r.ok) setMessages(await r.json())
-      else setMessages([])
-    } catch { setMessages([]) }
+      setMessages(await r.json())
+    } catch { setAlert({ type: 'error', msg: 'Failed to load messages' }) }
     setLoading(false)
-  }, [onUnauth])
+  }, [])
 
   useEffect(() => { load() }, [load])
 
   const del = async (id) => {
-    if (!confirm('Delete this message?')) return
+    if (!confirm('Archive this communication?')) return
     try {
       const r = await apiFetch(`/contact/${id}`, { method: 'DELETE' })
       if (r.status === 401) { onUnauth(); return }
-      setAlert({ type: 'success', msg: 'Message deleted.' })
       load()
-    } catch { setAlert({ type: 'error', msg: 'Delete failed.' }) }
+    } catch { setAlert({ type: 'error', msg: 'Archive failed.' }) }
   }
 
   return (
@@ -901,29 +717,28 @@ function MessagesTab({ onUnauth }) {
       {alert && <Alert {...alert} onClose={() => setAlert(null)} />}
       <div className="card">
         <div className="card-header">
-          <span className="card-title">Contact Messages</span>
-          <button className="btn btn-ghost" onClick={load}>↻ Refresh</button>
+          <span className="card-title">Inbound Communications</span>
+          <div style={{ fontSize: 12, color: 'var(--muted)' }}>{messages.length} Active Leads</div>
         </div>
-        {loading ? <Loader /> : messages.length === 0 ? (
-          <div className="empty">
-            <div style={{ fontSize: 32, marginBottom: 12 }}>📭</div>
-            No messages yet.
-          </div>
-        ) : (
+        {loading ? <Loader /> : (
           <div className="table-wrap">
             <table>
               <thead>
-                <tr><th>Name</th><th>Email</th><th>Message</th><th>Actions</th></tr>
+                <tr><th>Timestamp</th><th>Sender</th><th>Inquiry</th><th>Action</th></tr>
               </thead>
               <tbody>
                 {messages.map(m => (
                   <tr key={m.id}>
-                    <td style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>{m.name}</td>
-                    <td><a href={`mailto:${m.email}`} className="link-icon" style={{ textDecoration: 'underline', fontSize: 13 }}>{m.email}</a></td>
-                    <td><div className="message-body">{m.message}</div></td>
+                    <td style={{ fontSize: 11, color: 'var(--muted)', whiteSpace: 'nowrap' }}>{new Date(m.created_at).toLocaleString()}</td>
                     <td>
-                      <button className="btn btn-danger btn-sm" onClick={() => del(m.id)}>Delete</button>
+                      <div style={{ fontWeight: 700 }}>{m.name}</div>
+                      <div style={{ fontSize: 12, color: 'var(--accent)' }}>{m.email}</div>
                     </td>
+                    <td>
+                      <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 4 }}>{m.subject}</div>
+                      <div style={{ fontSize: 12, color: 'var(--muted)', maxWidth: 400, overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.message}</div>
+                    </td>
+                    <td><button className="btn btn-danger" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => del(m.id)}>Archive</button></td>
                   </tr>
                 ))}
               </tbody>
@@ -935,131 +750,95 @@ function MessagesTab({ onUnauth }) {
   )
 }
 
-// ── Overview Tab ───────────────────────────────────────────────────────────
-function OverviewTab({ onNav }) {
-  const [counts, setCounts] = useState({ projects: '—', skills: '—', messages: '—' })
-
-  useEffect(() => {
-    Promise.allSettled([
-      apiFetch('/projects').then(r => r.json()),
-      apiFetch('/skills').then(r => r.json()),
-      apiFetch('/contact').then(r => r.ok ? r.json() : []),
-    ]).then(([p, s, m]) => {
-      setCounts({
-        projects: p.status === 'fulfilled' ? p.value.length : '?',
-        skills: s.status === 'fulfilled' ? s.value.length : '?',
-        messages: m.status === 'fulfilled' ? m.value.length : '?',
-        team: 3 // Hardcoded to 3 for now: Anmol, Loveneesh, Harshit
-      })
-    })
-  }, [])
-
-  return (
-    <div>
-      <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
-        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => onNav('projects')}>
-          <div className="stat-label">Projects</div>
-          <div className="stat-value">{counts.projects}</div>
-        </div>
-        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => onNav('skills')}>
-          <div className="stat-label">Skills</div>
-          <div className="stat-value">{counts.skills}</div>
-        </div>
-        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => onNav('team')}>
-          <div className="stat-label">Team Members</div>
-          <div className="stat-value">{counts.team}</div>
-        </div>
-        <div className="stat-card" style={{ cursor: 'pointer' }} onClick={() => onNav('messages')}>
-          <div className="stat-label">Messages</div>
-          <div className="stat-value">{counts.messages}</div>
-        </div>
-      </div>
-      <div className="card">
-        <div className="card-header"><span className="card-title">Quick Actions</span></div>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <button className="btn btn-primary" onClick={() => onNav('projects')}>📁 Manage Projects</button>
-          <button className="btn btn-ghost" onClick={() => onNav('skills')}>⚡ Manage Skills</button>
-          <button className="btn btn-ghost" onClick={() => onNav('messages')}>✉️ View Messages</button>
-          <a href="http://localhost:8000/docs" target="_blank" rel="noreferrer" className="btn btn-ghost">📄 API Docs ↗</a>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ── Root Admin ─────────────────────────────────────────────────────────────
-const TABS = [
-  { id: 'overview',  label: 'Overview',  icon: '⬡' },
-  { id: 'projects',  label: 'Projects',  icon: '📁' },
-  { id: 'skills',    label: 'Skills',    icon: '⚡' },
-  { id: 'team',      label: 'Team',      icon: '👥' },
-  { id: 'messages',  label: 'Messages',  icon: '✉️' },
-]
-
+// ── Main Admin Page ─────────────────────────────────────────────────────────
 export default function AdminPage() {
   const [authed, setAuthed] = useState(!!getToken())
-  const [tab, setTab] = useState('overview')
+  const [tab, setTab] = useState('projects')
+  const [projectsCount, setProjectsCount] = useState(0)
+  const [skillsCount, setSkillsCount] = useState(0)
+  const [leadsCount, setLeadsCount] = useState(0)
 
-  const handleLogin = () => setAuthed(true)
-  const handleLogout = () => { clearToken(); setAuthed(false) }
-  // Called by any tab when the API returns 401 (token expired / invalid)
-  const handleUnauth = () => { clearToken(); setAuthed(false) }
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [pr, sk, co] = await Promise.all([
+          apiFetch('/projects'),
+          apiFetch('/skills'),
+          apiFetch('/contact')
+        ])
+        if (pr.ok) setProjectsCount((await pr.json()).length)
+        if (sk.ok) setSkillsCount((await sk.json()).length)
+        if (co.ok) setLeadsCount((await co.json()).length)
+      } catch (err) {
+        console.error("Dashboard stats sync error:", err)
+      }
+    }
+    if (authed) fetchStats()
+  }, [authed, tab])
 
-  const titles = {
-    overview: { h: 'Dashboard', sub: 'Welcome back, ALH. Your studio at a glance.' },
-    projects: { h: 'Projects', sub: 'Add, edit, and reorder your portfolio projects.' },
-    skills:   { h: 'Skills', sub: 'Manage the skills displayed on your About section.' },
-    team:     { h: 'Team Members', sub: 'Manage the personal info and avatars for the ALH team.' },
-    messages: { h: 'Messages', sub: 'Contact form submissions from your visitors.' },
-  }
+  const onUnauth = () => { clearToken(); setAuthed(false) }
 
-  if (!authed) {
-    return (
-      <>
-        <style>{css}</style>
-        <LoginScreen onLogin={handleLogin} />
-      </>
-    )
-  }
+  if (!authed) return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: css }} />
+      <LoginScreen onLogin={() => setAuthed(true)} />
+    </>
+  )
 
   return (
-    <>
-      <style>{css}</style>
-      <div className="admin-root">
-        <aside className="sidebar">
-          <div className="sidebar-logo">
-            <span className="dot" />
-            ALH · Admin
+    <div className="admin-root">
+      <style dangerouslySetInnerHTML={{ __html: css }} />
+      
+      <aside className="sidebar">
+        <div className="sidebar-logo">
+          <span className="dot" />
+          <span>HALO Console</span>
+        </div>
+        
+        <nav style={{ flex: 1 }}>
+          <div className={`nav-item ${tab === 'projects' ? 'active' : ''}`} onClick={() => setTab('projects')}>
+            Production
           </div>
-          <nav className="sidebar-nav">
-            {TABS.map(t => (
-              <div key={t.id} className={`nav-item ${tab === t.id ? 'active' : ''}`} onClick={() => setTab(t.id)}>
-                <span className="icon">{t.icon}</span>
-                {t.label}
-              </div>
-            ))}
-          </nav>
-          <div className="sidebar-footer">
-            <div style={{ marginBottom: 8 }}>Portfolio API</div>
-            <div style={{ fontSize: 11, marginBottom: 12 }}>localhost:8000</div>
-            <button className="btn btn-danger btn-sm" onClick={handleLogout} style={{ width: '100%', justifyContent: 'center' }}>
-              Sign out
-            </button>
+          <div className={`nav-item ${tab === 'skills' ? 'active' : ''}`} onClick={() => setTab('skills')}>
+            Capabilities
           </div>
-        </aside>
+          <div className={`nav-item ${tab === 'contact' ? 'active' : ''}`} onClick={() => setTab('contact')}>
+            Leads
+          </div>
+        </nav>
 
-        <main className="admin-main">
-          <div className="page-header">
-            <h1>{titles[tab].h}</h1>
-            <p>{titles[tab].sub}</p>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="nav-item" onClick={onUnauth} style={{ color: 'var(--danger)' }}>
+            Terminate Session
           </div>
-          {tab === 'overview' && <OverviewTab onNav={setTab} />}
-          {tab === 'projects' && <ProjectsTab onUnauth={handleUnauth} />}
-          {tab === 'skills'   && <SkillsTab onUnauth={handleUnauth} />}
-          {tab === 'team'     && <TeamTab />}
-          {tab === 'messages' && <MessagesTab onUnauth={handleUnauth} />}
-        </main>
-      </div>
-    </>
+        </div>
+      </aside>
+
+      <main className="admin-main">
+        <header className="page-header">
+          <h1>Workspace Control</h1>
+          <p>Managing Trifold-HALO Digital Assets & Communications</p>
+        </header>
+
+        <section className="stats-grid">
+          <div className="stat-card">
+            <span className="stat-label">Production Assets</span>
+            <span className="stat-value">{projectsCount}</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Active Leads</span>
+            <span className="stat-value">{leadsCount}</span>
+          </div>
+          <div className="stat-card">
+            <span className="stat-label">Core Capabilities</span>
+            <span className="stat-value">{skillsCount}</span>
+          </div>
+        </section>
+
+        {tab === 'projects' && <ProjectsTab onUnauth={onUnauth} />}
+        {tab === 'skills' && <SkillsTab onUnauth={onUnauth} />}
+        {tab === 'contact' && <ContactTab onUnauth={onUnauth} />}
+      </main>
+    </div>
   )
 }

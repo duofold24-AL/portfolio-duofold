@@ -52,7 +52,7 @@ export default function Hero() {
       
       <div className="hero-container">
         <div className="hero-content">
-          <LiquidDropTitle text="DUOFOLD-ALH" highlight="ALH" />
+          <LiquidDropTitle text="Trifold-HALO" highlight="HALO" />
           <p className="hero-subtitle">
             <strong>Anmol Chaudhary, Loveneesh & Harshit Khatana</strong><br />
             Crafting immersive digital experiences with clean code,<br />
