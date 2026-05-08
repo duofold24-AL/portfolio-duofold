@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import LiquidButton from './LiquidButton'
 import { useFetch } from '../hooks/useFetch'
+import AnimatedCtaButton from './AnimatedCtaButton'
 
 function ProjectCard({ project, index }) {
   return (
     <li 
-      className="projects-stack-item" 
+      className="projects-stack-item glass-container" 
       style={{ '--i': index + 1 }}
     >
       <img 
@@ -32,7 +33,7 @@ function ProjectCard({ project, index }) {
           )}
           <div style={{ pointerEvents: 'auto' }}>
             <a
-              href={project.github_url || "https://github.com/Trifold-HALO/portfolio"}
+              href={project.github_url || "https://github.com/DigitalHall/portfolio"}
               target="_blank"
               rel="noreferrer"
               style={{
@@ -142,7 +143,7 @@ export default function Projects() {
       tags: ['React', 'Firebase', 'Tailwind'], 
       live_url: 'https://edzurelegal.com',
       image_url: '/assets/edzure-legal-thumb.webp',
-      gradient: 'linear-gradient(135deg,#fb4268,#ff7aa2)'
+      gradient: 'linear-gradient(135deg,#800020,#ff7aa2)'
     },
     { 
       id: 2, 
@@ -186,13 +187,7 @@ export default function Projects() {
           <h2 className="section-title" style={{ marginBottom: 0 }}>
             Projects that<br /><em>speak for themselves</em>
           </h2>
-          <a 
-            href="/projects" 
-            className="btn btn-ghost" 
-            style={{ fontSize: '0.9rem', padding: '0.6rem 1.2rem', height: 'auto', width: 'auto', textDecoration: 'none' }}
-          >
-            View all projects ↗
-          </a>
+          <AnimatedCtaButton href="/projects" text="View all projects ↗" />
         </div>
 
         {loading && <div className="loader">Loading projects...</div>}

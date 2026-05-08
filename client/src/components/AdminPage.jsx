@@ -16,7 +16,7 @@ function apiFetch(path, opts = {}) {
   return fetch(`${API}${path}`, { ...opts, headers })
 }
 
-// ── Palette & theme matching #0b0b0f + Trifold-HALO aesthetic ────────────────
+// ── Palette & theme matching #0b0b0f + DigitalHall aesthetic ────────────────
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
@@ -27,9 +27,9 @@ const css = `
     --surface:   rgba(255, 255, 255, 0.03);
     --surface-h: rgba(255, 255, 255, 0.06);
     --border:    rgba(255, 255, 255, 0.08);
-    --accent:    #fb4268;
+    --accent:    #800020;
     --accent-d:  #c4304e;
-    --accent-g:  linear-gradient(135deg, #fb4268, #ff7aa2);
+    --accent-g:  linear-gradient(135deg, #800020, #ff7aa2);
     --text:      #ffffff;
     --muted:     rgba(255, 255, 255, 0.5);
     --danger:    #ff4d4d;
@@ -389,7 +389,7 @@ function LoginScreen({ onLogin }) {
   return (
     <div className="login-root">
       <div className="login-card">
-        <div className="login-logo">Trifold-HALO</div>
+        <div className="login-logo">DigitalHall</div>
         <div className="login-sub">Secure Authentication Required</div>
         {error && <div className="login-error">{error}</div>}
         <div className="field">
@@ -413,7 +413,7 @@ function LoginScreen({ onLogin }) {
 
 // ── Projects Tab ───────────────────────────────────────────────────────────
 const GRADIENT_OPTIONS = [
-  'linear-gradient(135deg,#fb4268,#ff7aa2)',
+  'linear-gradient(135deg,#800020,#ff7aa2)',
   'linear-gradient(135deg,#6a11cb,#2575fc)',
   'linear-gradient(135deg,#f7971e,#ffd200)',
   'linear-gradient(135deg,#11998e,#38ef7d)',
@@ -537,7 +537,7 @@ function ProjectsTab({ onUnauth }) {
                 <option value="Anmol Chaudhary">Anmol Chaudhary</option>
                 <option value="Loveneesh">Loveneesh</option>
                 <option value="Harshit Khatana">Harshit Khatana</option>
-                <option value="Collab">Trifold-HALO (Team)</option>
+                <option value="Collab">DigitalHall (Team)</option>
               </select>
             </div>
             <div className="field"><label>Core Description</label><textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Brief summary of the work…" /></div>
@@ -833,7 +833,7 @@ export default function AdminPage() {
       <aside className="sidebar">
         <div className="sidebar-logo">
           <span className="dot" />
-          <span>HALO Console</span>
+          <span>DigitalHall Console</span>
         </div>
         
         <nav style={{ flex: 1 }}>
@@ -858,7 +858,7 @@ export default function AdminPage() {
       <main className="admin-main">
         <header className="page-header">
           <h1>Workspace Control</h1>
-          <p>Managing Trifold-HALO Digital Assets & Communications</p>
+          <p>Managing DigitalHall Digital Assets & Communications</p>
         </header>
 
         <section className="stats-grid">

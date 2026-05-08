@@ -5,7 +5,7 @@ export const teamMembers = [
     role: 'Full-Stack Developer',
     emoji: '⚡',
     image: '/assets/Anmol Image.webp',
-    gradient: 'linear-gradient(135deg, #EA2E00, #ff7a5a)',
+    gradient: 'linear-gradient(135deg, #800020, #ff7a5a)',
     bio: 'Specialises in building high-performance web apps with React frontends and Node/Python backends. Obsessed with micro-interactions and visual storytelling.',
     skills: ['React', 'Next.js', 'Node.js', 'Python', 'FastAPI', 'PostgreSQL', 'TypeScript', 'Docker', 'Three.js', 'GSAP', 'Figma', 'WebGL'],
   },

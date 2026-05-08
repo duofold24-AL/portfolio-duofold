@@ -31,14 +31,14 @@ export default function Contact() {
 
   return (
     <section className="section contact-section" id="contact">
-      <div className="glass-container-sharp-corner card-three section-inner contact-main-card">
+      <div className="glass-container card-three section-inner contact-main-card">
         <div className="contact-layout-grid">
           <div className="contact-col-title">
             <span className="section-tag" style={{ border: '1px solid var(--accent)', padding: '4px 12px', borderRadius: '1rem', color: 'var(--accent)', fontSize: '0.7rem' }}>LET'S TALK</span>
             <h2 className="section-title">
               Ready to build<br /><em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>something great?</em>
             </h2>
-            <p style={{ marginTop: '1.5rem', color: 'var(--muted)', fontSize: '1.05rem', lineHeight: '1.7', maxWidth: '90%' }}>
+            <p className="subtext-glass" style={{ marginTop: '1.5rem', color: 'var(--muted)', fontSize: '1.05rem', lineHeight: '1.7', maxWidth: '90%' }}>
               Whether you have a complete product specification or just an idea on a napkin, our team of developers and designers is ready to bring your vision to life. Fill out the form or message us directly.
             </p>
             <div style={{ marginTop: '2rem' }}>

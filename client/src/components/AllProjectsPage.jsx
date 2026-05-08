@@ -17,7 +17,7 @@ export default function AllProjectsPage() {
       tags: ['React', 'Firebase', 'Tailwind'], 
       live_url: 'https://edzurelegal.com',
       image_url: '/assets/edzure-legal-thumb.webp',
-      gradient: 'linear-gradient(135deg,#fb4268,#ff7aa2)'
+      gradient: 'linear-gradient(135deg,#800020,#ff7aa2)'
     },
     { 
       id: 2, 

@@ -77,7 +77,7 @@ export default function AllProjects() {
                   style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '0.4rem', marginBottom: '1.5rem' }} 
                 />
                 <h3 style={{ fontSize: '1.4rem', marginBottom: '0.5rem', color: 'var(--white)' }}>{project.title}</h3>
-                <p style={{ color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.5rem' }}>By {project.developer || 'Team HALO'}</p>
+                <p style={{ color: 'var(--accent)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '0.5rem' }}>By {project.developer || 'Team DigitalHall'}</p>
                 <p style={{ color: 'var(--muted)', fontSize: '0.95rem', lineHeight: 1.6, flexGrow: 1 }}>{project.description}</p>
                 
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', margin: '1.5rem 0' }}>

@@ -74,7 +74,7 @@ export default function ProjectEstimator() {
   ]
 
   return (
-    <div className="glass-container-sharp-corner card-three" style={{ maxWidth: '800px', margin: '0 auto', padding: '3rem', position: 'relative', overflow: 'hidden' }}>
+    <div className="glass-container card-three estimator-main-card" style={{ maxWidth: '800px', margin: '0 auto', padding: '3rem', position: 'relative', overflow: 'hidden' }}>
       
       {/* Progress Bar */}
       {status !== 'success' && (

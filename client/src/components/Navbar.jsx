@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useScroll, useVelocity, useTransform, useSprin
 import HireUsButton from './HireUsButton'
 
 const navItems = [
+  { name: 'Services', href: '/services' },
   { name: 'About', href: '/about' },
   { name: 'Projects', href: '/projects' },
 ]
@@ -104,13 +105,13 @@ export default function Navbar() {
             onClick={(e) => handleLinkClick(e, '#hero')}
           >
             <div className="logo-svg-wrapper" style={{ position: 'relative', width: '32px', height: '32px' }}>
-              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
-                {/* Trifold Triangle Base */}
-                <path d="M50 10L90 80H10L50 10Z" stroke="white" strokeWidth="4" strokeLinejoin="round" opacity="0.3" />
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%', overflow: 'visible' }}>
+                {/* DigitalHall Triangle Base */}
+                <path d="M50 10L90 80H10L50 10Z" stroke="white" strokeWidth="4" strokeLinejoin="round" opacity="0.3" style={{ animation: 'heroOuterPulse 4s ease-in-out infinite' }} />
                 {/* Inner Halo Circle */}
-                <circle cx="50" cy="53" r="25" stroke="var(--accent)" strokeWidth="6" strokeDasharray="10 5" />
-                {/* Core Trifold Element */}
-                <path d="M50 25L70 65H30L50 25Z" fill="white" />
+                <circle cx="50" cy="53" r="25" stroke="var(--accent)" strokeWidth="6" strokeDasharray="10 5" style={{ animation: 'heroSpin 8s linear infinite', transformOrigin: 'center', transformBox: 'fill-box' }} />
+                {/* Core DigitalHall Element */}
+                <path d="M50 25L70 65H30L50 25Z" fill="white" style={{ animation: 'heroCorePulse 3s ease-in-out infinite', transformBox: 'fill-box' }} />
                 <path d="M50 15L85 75H15L50 15Z" stroke="white" strokeWidth="2" opacity="0.5" />
               </svg>
             </div>
@@ -122,7 +123,7 @@ export default function Navbar() {
               textTransform: 'uppercase',
               fontFamily: 'var(--font-heading)'
             }}>
-              Trifold-HALO
+              DigitalHall
             </span>
           </motion.div>
 
@@ -160,7 +161,7 @@ export default function Navbar() {
               <HireUsButton onClick={(e) => handleLinkClick(e, '/hire')} />
             </div>
             <a
-              href="https://github.com/Trifold-HALO/portfolio"
+              href="https://github.com/DigitalHall/portfolio"
               target="_blank"
               rel="noreferrer"
               className="nav-github-star desktop-only"
@@ -220,7 +221,7 @@ export default function Navbar() {
               <div className="mobile-menu-footer">
                 <HireUsButton onClick={(e) => handleLinkClick(e, '/hire')} />
                 <a
-                  href="https://github.com/Trifold-HALO/portfolio"
+                  href="https://github.com/DigitalHall/portfolio"
                   target="_blank"
                   rel="noreferrer"
                   className="nav-github-star"

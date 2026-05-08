@@ -29,7 +29,7 @@ const testimonials = [
   {
     name: "Priya Patel",
     role: "Creative Director",
-    text: "I've worked with many agencies, but the HALO team operates on another level. Their design system was perfectly executed.",
+    text: "I've worked with many agencies, but the DigitalHall team operates on another level. Their design system was perfectly executed.",
     image: "https://i.pravatar.cc/150?img=44"
   }
 ]

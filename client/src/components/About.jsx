@@ -5,7 +5,7 @@ export default function About() {
 
   return (
     <section className="section about-section" id="about">
-      <div className="glass-container-sharp-corner card-three section-inner about-main-card">
+      <div className="glass-container card-three section-inner about-main-card">
         <div className="about-content-grid">
           <div className="about-col-title">
             <span className="section-tag" style={{ border: '1px solid var(--accent)', padding: '4px 12px', borderRadius: '1rem', color: 'var(--accent)', fontSize: '0.7rem' }}>ABOUT US</span>

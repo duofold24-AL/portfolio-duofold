@@ -102,7 +102,7 @@ export default function AboutPage() {
                 ← Back to Home
               </a>
             </div>
-            <p className="section-body" style={{ fontSize: '1.2rem', maxWidth: '800px' }}>
+            <p className="section-body subtext-glass" style={{ fontSize: '1.2rem', maxWidth: '800px' }}>
               We are a close-knit creative studio — developers, designers, and storytellers — unified by a single mission: turning ambitious ideas into digital masterpieces.
             </p>
           </div>
@@ -253,7 +253,7 @@ export default function AboutPage() {
             <h2 className="section-title" style={{ marginBottom: 0 }}>
               Let's craft something <em>extraordinary</em>
             </h2>
-            <p style={{ fontSize: '1.1rem', color: 'var(--muted)', maxWidth: '600px' }}>
+            <p className="subtext-glass" style={{ fontSize: '1.1rem', color: 'var(--muted)', maxWidth: '600px' }}>
               We're currently accepting new projects and creative collaborations. If you have a vision that needs high-end execution, let's talk.
             </p>
             <div className="about-cta-buttons">

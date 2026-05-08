@@ -91,8 +91,8 @@ export default function LiquidDropTitle({ text = 'DUOPORTFOLIO', highlight = '' 
             background-clip: text;
             color: transparent;
             -webkit-text-fill-color: transparent;
-            -webkit-text-stroke: 0.8px rgba(234, 46, 0, 0.2);
-            text-shadow: 0 0 15px rgba(234, 46, 0, 0.25);
+            -webkit-text-stroke: 0.8px rgba(128, 0, 32, 0.2);
+            text-shadow: 0 0 15px rgba(128, 0, 32, 0.25);
             /* Keep the filter to ensure liquid continuity */
           }
 

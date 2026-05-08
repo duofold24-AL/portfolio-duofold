@@ -37,13 +37,19 @@ const Breadcrumbs = () => {
         {pathnames.map((value, index) => {
           const last = index === pathnames.length - 1
           const to = `/${pathnames.slice(0, index + 1).join('/')}`
+          
+          // Capitalize each word and replace hyphens
+          const label = value.replace(/-/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ')
 
           return (
             <li key={to} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
               <span style={{ color: 'var(--border)' }}>/</span>
               {last ? (
                 <span style={{ color: 'var(--accent)' }}>
-                  {value.replace(/-/g, ' ')}
+                  {label}
                 </span>
               ) : (
                 <a href={to} style={{ 
@@ -52,7 +58,7 @@ const Breadcrumbs = () => {
                   transition: 'color 0.2s'
                 }} onMouseOver={e => e.target.style.color = 'var(--accent)'} 
                    onMouseOut={e => e.target.style.color = 'var(--muted)'}>
-                  {value.replace(/-/g, ' ')}
+                  {label}
                 </a>
               )}
             </li>

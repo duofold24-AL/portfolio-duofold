@@ -15,8 +15,11 @@ const AllProjectsPage = lazy(() => import('./components/AllProjectsPage'))
 const AboutPage = lazy(() => import('./components/AboutPage'))
 const MemberPage = lazy(() => import('./components/MemberPage'))
 const HireUsPage = lazy(() => import('./components/HireUsPage'))
+const ServicesPage = lazy(() => import('./components/ServicesPage'))
+const Services = lazy(() => import('./components/Services'))
+const FloatingBookCall = lazy(() => import('./components/FloatingBookCall'))
 
-import { SkeletonBase, HeroSkeleton, AboutSkeleton, ProjectSkeleton, TestimonialSkeleton, MemberSkeleton, DashboardSkeleton } from './components/Skeleton'
+import { SkeletonBase, HeroSkeleton, AboutSkeleton, ProjectSkeleton, TestimonialSkeleton, MemberSkeleton, DashboardSkeleton, ServicesSkeleton, FooterSkeleton, GeneralPageSkeleton } from './components/Skeleton'
 
 // Loading component for Suspense
 const SectionLoader = ({ type }) => {
@@ -28,6 +31,7 @@ const SectionLoader = ({ type }) => {
       <ProjectSkeleton />
     </div>
   )
+  if (type === 'services') return <ServicesSkeleton />
   if (type === 'testimonials') return <TestimonialSkeleton />
   if (type === 'contact') return (
     <div className="section">
@@ -51,13 +55,13 @@ export default function App() {
   const isAboutPath = window.location.pathname === '/about'
   const isMemberPath = window.location.pathname.startsWith('/member/')
   const isHirePath = window.location.pathname === '/hire'
+  const isServicesPath = window.location.pathname === '/services'
 
   return (
     <>
       {/* SVG filter definitions — liquid glass effect */}
       <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
-          {/* ... SVG Filters (kept unchanged for brevity in this thought, but will be included in the tool call) ... */}
           <filter id="bubble-water" x="-20%" y="-20%" width="140%" height="140%">
             <feTurbulence type="fractalNoise" baseFrequency="0.25" numOctaves="1" seed="12" result="bubbles" />
             <feDiffuseLighting in="bubbles" lightingColor="#ffffff" surfaceScale="2" result="diffuse">
@@ -113,7 +117,7 @@ export default function App() {
             <feComposite in="spec" in2="goo-alpha" operator="in" result="spec-cut" />
             <feGaussianBlur in="goo-alpha" stdDeviation="15" result="shadow-blur" />
             <feOffset in="shadow-blur" dx="0" dy="10" result="shadow-offset" />
-            <feFlood floodColor="#fb4268" floodOpacity="0.15" result="shadow" />
+            <feFlood floodColor="#800020" floodOpacity="0.15" result="shadow" />
             <feComposite in="shadow" in2="shadow-offset" operator="in" result="shadow-final" />
             <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -0.333 -0.333 -0.333 1 0" result="extracted-icons" />
             <feComposite in="extracted-icons" in2="goo-alpha" operator="in" result="masked-icons" />
@@ -207,8 +211,12 @@ export default function App() {
             <MemberPage />
           </Suspense>
         ) : isHirePath ? (
-          <Suspense fallback={<div className="section"><AboutSkeleton /></div>}>
+          <Suspense fallback={<div className="section"><GeneralPageSkeleton /></div>}>
             <HireUsPage />
+          </Suspense>
+        ) : isServicesPath ? (
+          <Suspense fallback={<div className="section"><GeneralPageSkeleton /></div>}>
+            <ServicesPage />
           </Suspense>
         ) : (
           <>
@@ -223,6 +231,9 @@ export default function App() {
               <Suspense fallback={<SectionLoader type="projects" />}>
                 <Projects />
               </Suspense>
+              <Suspense fallback={<SectionLoader type="services" />}>
+                <Services />
+              </Suspense>
               <Suspense fallback={<SectionLoader type="testimonials" />}>
                 <Testimonials />
               </Suspense>
@@ -230,12 +241,18 @@ export default function App() {
                 <Contact />
               </Suspense>
             </main>
-            <Suspense fallback={null}>
+            <Suspense fallback={<FooterSkeleton />}>
               <Footer />
             </Suspense>
           </>
         )}
       </Suspense>
+
+      {!isAdminPath && (
+        <Suspense fallback={null}>
+          <FloatingBookCall />
+        </Suspense>
+      )}
     </>
   )
 }

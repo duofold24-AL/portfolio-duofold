@@ -8,15 +8,14 @@ export default function HireUsPage() {
   return (
     <>
       <Navbar />
-      <main style={{ paddingTop: '100px', minHeight: 'calc(100vh - 100px)', position: 'relative', zIndex: 1 }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 5%' }}>
-          <Breadcrumbs />
-        </div>
-        <div style={{ paddingBottom: '4rem', paddingLeft: '1rem', paddingRight: '1rem' }}>
-            <h1 className="section-title" style={{ marginTop: '1.5rem', marginBottom: '1.5rem', fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', textAlign: 'center' }}>
+      <main className="page-main" style={{ paddingTop: '100px', minHeight: '100vh', position: 'relative', zIndex: 1 }}>
+        <section className="section" style={{ paddingBottom: '2rem' }}>
+          <div className="section-inner" style={{ maxWidth: '1100px', margin: '0 auto' }}>
+            <Breadcrumbs />
+            <h1 className="hero-title clean-title" style={{ marginTop: '1.5rem', marginBottom: '1.5rem', fontSize: 'clamp(2.5rem, 8vw, 4.5rem)', textAlign: 'center' }}>
               Let's craft your next<br /><em style={{ color: 'var(--accent)' }}>digital experience</em>
             </h1>
-            <p className="section-body" style={{ fontSize: '1.2rem', maxWidth: '700px', margin: '0 auto 2.5rem auto', textAlign: 'center', color: 'var(--muted)' }}>
+            <p className="section-body subtext-glass" style={{ fontSize: '1.2rem', maxWidth: '700px', margin: '0 auto 2.5rem auto', textAlign: 'center', color: 'var(--muted)' }}>
               Skip the traditional contact forms. Use our interactive project estimator below to tell us what you need, and we'll get back to you with a tailored plan.
             </p>
             <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
@@ -42,7 +41,8 @@ export default function HireUsPage() {
               </a>
             </div>
           <ProjectEstimator />
-        </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

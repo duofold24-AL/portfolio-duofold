@@ -22,6 +22,7 @@ export default function LiquidHeroBackground() {
         const mat = appRef.current.liquidPlane.material;
         mat.metalness = 0.55;
         mat.roughness = 0.35;
+        if (mat.color) mat.color.set('#FFD700'); // Set color to golden
         if (mat.envMapIntensity !== undefined) mat.envMapIntensity = 0.5;
         if (mat.uniforms?.uFrequency) mat.uniforms.uFrequency.value = 12.0;
         if (mat.uniforms?.displacementScale) mat.uniforms.displacementScale.value = 3.5;
