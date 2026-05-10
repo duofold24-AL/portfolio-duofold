@@ -233,8 +233,14 @@ const css = `
   .btn-danger:hover { background: rgba(255, 77, 77, 0.2); }
 
   /* ── Table ── */
-  .table-wrap { overflow: hidden; border-radius: 12px; }
-  table { width: 100%; border-collapse: collapse; }
+  .table-wrap { 
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  table { min-width: 800px; }
+
   th {
     text-align: left;
     padding: 16px;
@@ -327,10 +333,37 @@ const css = `
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
   ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
 
+  /* ── Mobile Header ── */
+  .mobile-header {
+    display: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(6, 6, 8, 0.8);
+    backdrop-filter: var(--glass);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   @media (max-width: 1024px) {
     .admin-root { grid-template-columns: 1fr; }
     .sidebar { display: none; }
-    .admin-main { padding: 40px 24px; }
+    .mobile-header { display: flex; }
+    .admin-main { padding: 32px 20px; }
+    .page-header h1 { font-size: 32px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .modal { padding: 24px; border-radius: 20px; width: 95%; }
+    .modal-footer { flex-direction: column-reverse; }
+    .modal-footer .btn { width: 100%; justify-content: center; }
+  }
+
+  @media (max-width: 480px) {
+    .page-header h1 { font-size: 28px; }
+    .card { padding: 20px; }
+    .stat-value { font-size: 36px; }
+    .login-card { padding: 32px 24px; }
   }
 `
 
@@ -830,6 +863,42 @@ export default function AdminPage() {
     <div className="admin-root">
       <style dangerouslySetInnerHTML={{ __html: css }} />
       
+      {/* Mobile Top Navigation */}
+      <header className="mobile-header">
+        <div className="sidebar-logo" style={{ marginBottom: 0, fontSize: 16 }}>
+          <span className="dot" />
+          <span>Console</span>
+        </div>
+        <select 
+          value={tab} 
+          onChange={(e) => setTab(e.target.value)}
+          style={{
+            background: 'var(--surface-h)',
+            border: '1px solid var(--border)',
+            color: '#fff',
+            padding: '6px 12px',
+            borderRadius: '8px',
+            fontSize: '13px'
+          }}
+        >
+          <option value="projects">Production</option>
+          <option value="skills">Capabilities</option>
+          <option value="contact">Leads</option>
+        </select>
+        <button 
+          onClick={onUnauth} 
+          style={{ 
+            background: 'none', 
+            border: 'none', 
+            color: 'var(--danger)', 
+            fontSize: '12px', 
+            fontWeight: 700 
+          }}
+        >
+          Exit
+        </button>
+      </header>
+
       <aside className="sidebar">
         <div className="sidebar-logo">
           <span className="dot" />

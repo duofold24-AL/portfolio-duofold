@@ -885,15 +885,22 @@ nav.glass {
   display: inline-block;
   font-family: var(--font-label);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--accent);
   margin-bottom: 1rem;
-  padding: 0.3rem 0.8rem;
-  border: 1px solid rgba(128, 0, 32,0.25);
+  padding: 0.35rem 1rem;
+  border: 1px solid rgba(128, 0, 32, 0.25);
+  border-top: 1px solid rgba(255, 80, 60, 0.4);
   border-radius: var(--radius-pill);
-  background: var(--accent-soft);
+  background: linear-gradient(135deg, rgba(128,0,32,0.2) 0%, rgba(128,0,32,0.06) 100%);
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.1);
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.1);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 100, 80, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
 .section-title {
   font-family: var(--font-display);
@@ -1095,6 +1102,7 @@ nav.glass {
 .svc-svg-ray2, .svc-svg-ray4 { animation-delay: 0.2s; }
 .svc-svg-ray3, .svc-svg-ray5 { animation-delay: 0.4s; }
 .svc-svg-head { animation: svcPulseOpacity 4s ease-in-out infinite; }
+.svc-svg-record-dot { animation: svcBlink 1s step-start infinite; }
 
 /* ── Icon keyframes ── */
 @keyframes svcPulseOpacity {
@@ -1160,21 +1168,31 @@ nav.glass {
 .skill-chip {
   font-family: var(--font-label);
   font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--white);
-  padding: 0.4rem 0.85rem;
-  border: 1px solid var(--glass-border);
+  font-weight: 600;
+  color: #ffffff;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius-pill);
-  background: var(--glass-bg);
-  backdrop-filter: blur(8px);
+  background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.06) 100%);
+  backdrop-filter: blur(20px) saturate(200%) brightness(1.1);
+  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.1);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   transition: var(--transition);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 .skill-chip:hover {
-  border-color: rgba(128, 0, 32,0.4);
-  background: var(--accent-soft);
-  color: #ff7a5a;
+  border-color: rgba(128, 0, 32, 0.5);
+  border-top-color: rgba(255, 120, 100, 0.5);
+  background: linear-gradient(135deg, rgba(128,0,32,0.25) 0%, rgba(128,0,32,0.1) 100%);
+  color: #ffb3a0;
   transform: translateY(-2px);
+  box-shadow: 
+    0 6px 24px rgba(128, 0, 32, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* Skeleton loader */
@@ -1877,7 +1895,7 @@ body.light-mode .button-liquid-specular {
 
 .about-content-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr 0.8fr;
+  grid-template-columns: 1fr 1.5fr;
   gap: 3rem;
   align-items: center;
 }
@@ -2540,8 +2558,7 @@ body.light-mode .button-liquid-specular {
 
 @media (max-width: 960px) {
   .sticky-visual-container {
-    justify-content: center;
-    padding-right: 0;
+    display: none !important;
   }
 }
 
@@ -2563,18 +2580,6 @@ body.light-mode .button-liquid-specular {
   height: 450px;
   display: grid;
   place-items: center;
-}
-
-@media (max-width: 960px) {
-  .visual-cards-wrapper {
-    width: 300px;
-    height: 300px;
-    opacity: 0.3; /* Fade back on mobile to focus on text */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
 }
 
 .hero-visual-card {
@@ -2634,6 +2639,12 @@ body.light-mode .button-liquid-specular {
   position: relative;
   z-index: 2;
   margin-top: -100vh; /* Start overlapping with sticky visual */
+}
+
+@media (max-width: 960px) {
+  .scrolling-content-container {
+    margin-top: 0 !important;
+  }
 }
 
 .hero-content-section {

@@ -1,8 +1,4 @@
-import { useFetch } from '../hooks/useFetch'
-
 export default function About() {
-  const { data: skills, loading, error } = useFetch('/api/skills')
-
   return (
     <section className="section about-section" id="about">
       <div className="glass-container card-three section-inner about-main-card">
@@ -26,20 +22,6 @@ export default function About() {
               experience, micro-interactions, and visual storytelling — powered by
               React frontends and Python/Node backends.
             </p>
-
-          </div>
-
-          <div className="about-col-skills">
-            {(loading || error || skills) && (
-              <div className="skills-grid-compact">
-                {(skills || ['React', 'Python', 'FastAPI', 'PostgreSQL', 'TypeScript', 'Node.js', 'Three.js', 'GSAP', 'Figma', 'WebGL', 'Docker', 'Next.js']).map((s, i) => (
-                  <div key={typeof s === 'string' ? s : s.id} className="skill-item">
-                    {typeof s !== 'string' && s.icon && <span style={{ marginRight: '8px' }}>{s.icon}</span>}
-                    {typeof s === 'string' ? s : s.name}
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>

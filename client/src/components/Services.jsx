@@ -129,6 +129,27 @@ const services = [
         <line x1="24" y1="24" x2="20" y2="24" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" className="svc-svg-ray5" />
       </svg>
     )
+  },
+  {
+    id: 'video',
+    title: 'Videography & Editing',
+    description: 'High-end visual storytelling, cinematic videography, and precision editing that brings your brand to life.',
+    icon: (
+      <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="svc-icon-svg">
+        {/* Camera body */}
+        <rect x="12" y="24" width="40" height="32" rx="4" stroke="var(--accent)" strokeWidth="2.5" opacity="0.4" />
+        <circle cx="32" cy="40" r="10" stroke="white" strokeWidth="2" opacity="0.6" />
+        <circle cx="32" cy="40" r="4" fill="var(--accent)" />
+        {/* Lens part */}
+        <path d="M52 34L68 26V54L52 46V34Z" stroke="var(--accent)" strokeWidth="2.5" strokeLinejoin="round" opacity="0.4" />
+        {/* Recording dot */}
+        <circle cx="20" cy="32" r="2" fill="#ff4d4d" className="svc-svg-record-dot">
+          <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite" />
+        </circle>
+        {/* Film reel lines */}
+        <line x1="16" y1="50" x2="48" y2="50" stroke="white" strokeWidth="1.5" opacity="0.3" strokeDasharray="4 4" />
+      </svg>
+    )
   }
 ]
 
@@ -155,7 +176,9 @@ export default function Services() {
             padding: '0.4rem 1.2rem',
             borderRadius: 'var(--radius-pill)',
             border: '1px solid rgba(128, 0, 32,0.3)',
-            marginBottom: '1.5rem'
+            marginBottom: '1.5rem',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
           }}>What We Do</span>
 
           <h2 style={{

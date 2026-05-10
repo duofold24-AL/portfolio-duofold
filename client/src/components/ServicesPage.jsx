@@ -28,6 +28,14 @@ export default function ServicesPage() {
         { title: 'Performance Audits', desc: 'Identifying bottlenecks and optimizing load times.' },
         { title: 'Content Strategy', desc: 'Engaging content plans aligned with business objectives.' }
       ]
+    },
+    {
+      category: 'Videography & Content Creation',
+      items: [
+        { title: 'Cinematic Videography', desc: 'Professional film production tailored for brands and social storytelling.' },
+        { title: 'Video Editing & Post', desc: 'Precision editing, color grading, and sound design for maximum impact.' },
+        { title: 'Motion Graphics', desc: 'Eye-catching 2D/3D motion elements to elevate your video content.' }
+      ]
     }
   ]
 

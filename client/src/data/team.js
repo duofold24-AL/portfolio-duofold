@@ -28,5 +28,11 @@ export const teamMembers = [
     gradient: 'linear-gradient(135deg, #f7971e, #ffd200)',
     bio: 'Crafts compelling visual narratives through cinematic videography and precision editing. Brings ideas to life frame by frame with a sharp eye for rhythm and storytelling.',
     skills: ['Blender', 'Premiere Pro', 'VN', 'CapCut', 'After Effects', 'Color Grading'],
+    services: [
+      { title: 'Cinematic Videography', desc: 'High-end visual storytelling with a cinematic look and feel.' },
+      { title: 'Professional Video Editing', desc: 'Precision cutting, pacing, and rhythm to keep viewers engaged.' },
+      { title: 'Motion Graphics', desc: 'Dynamic text and visual elements that add a premium touch.' },
+      { title: 'Color Grading', desc: 'Expert color correction and stylization for a consistent aesthetic.' }
+    ]
   },
 ]

@@ -113,6 +113,20 @@ export default function MemberPage() {
                   ))}
                 </div>
               </div>
+
+              {member.services && (
+                <div style={{ marginTop: '3rem' }}>
+                  <h3 style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.15em', marginBottom: '1.5rem' }}>Personal Services</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
+                    {member.services.map((svc) => (
+                      <div key={svc.title} className="glass-container" style={{ padding: '1.5rem', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        <h4 style={{ color: 'var(--accent)', fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: 700 }}>{svc.title}</h4>
+                        <p style={{ color: 'var(--muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>{svc.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>

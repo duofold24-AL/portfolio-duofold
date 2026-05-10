@@ -228,17 +228,6 @@ export default function AboutPage() {
                   {member.bio}
                 </p>
 
-                {/* Skills Container */}
-                <div style={{ marginTop: 'auto', position: 'relative', zIndex: 2 }}>
-                  <h4 style={{ fontSize: '0.65rem', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', marginBottom: '0.75rem' }}>Core Expertise</h4>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    {member.skills.map((skill) => (
-                      <span key={skill} className="skill-chip" style={{ fontSize: '0.7rem', padding: '0.35rem 0.75rem' }}>
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
               </motion.div>
               </a>
             ))}
@@ -257,10 +246,19 @@ export default function AboutPage() {
               We're currently accepting new projects and creative collaborations. If you have a vision that needs high-end execution, let's talk.
             </p>
             <div className="about-cta-buttons">
-              <a href="/#contact" className="btn btn-primary" style={{ height: 'auto', width: 'auto', padding: '1rem 2.5rem' }}>
-                Start a project →
-              </a>
-              <a href="mailto:hello@duofold.com" className="btn btn-ghost" style={{ height: 'auto', width: 'auto', padding: '1rem 2.5rem' }}>
+              <a 
+                href="/hire" 
+                className="btn" 
+                style={{ 
+                  height: 'auto', 
+                  width: 'auto', 
+                  padding: '1rem 2.5rem',
+                  background: '#800020',
+                  color: '#fff',
+                  border: 'none',
+                  boxShadow: '0 10px 30px rgba(128, 0, 32, 0.3)'
+                }}
+              >
                 Say hello
               </a>
             </div>

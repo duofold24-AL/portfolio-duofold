@@ -67,10 +67,20 @@ export default function Hero() {
               [start - 0.1, start, end, end + 0.1],
               [0.8, 1, 1, 0.8]
             )
-            const y = useTransform(smoothProgress,
+            const x = useTransform(smoothProgress,
+
               [start - 0.1, start, end, end + 0.1],
-              [50, 0, 0, -50]
+              [120, 0, 0, -120]
             )
+            const rotateX = useTransform(smoothProgress,
+              [start - 0.1, start, end, end + 0.1],
+              [15, 0, 0, -15]
+            )
+            const rotateY = useTransform(smoothProgress,
+              [start - 0.1, start, end, end + 0.1],
+              [-10, 0, 0, 10]
+            )
+
 
             return (
               <motion.div 
@@ -79,7 +89,10 @@ export default function Hero() {
                 style={{ 
                   opacity,
                   scale,
-                  y,
+                  x,
+                  rotateX,
+                  rotateY,
+                  perspective: 1000,
                   zIndex: index === 0 ? 3 : 2
                 }}
               >
