@@ -57,4 +57,5 @@ class ContactMessage(BaseModel):
     name: str
     email: str
     message: str
+    is_archived: bool = False
     created_at: Optional[datetime] = None

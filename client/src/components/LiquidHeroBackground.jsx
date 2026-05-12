@@ -62,56 +62,8 @@ export default function LiquidHeroBackground() {
           }
         };
 
-        // ── Mouse: bump displacement, drop after idle ──
-        let isThrottled = false;
-        let lastX = 0;
-        let lastY = 0;
+        // Removed heavy mousemove listener that caused severe lag
 
-        const handleMovement = (e) => {
-          lastX = e.clientX;
-          lastY = e.clientY;
-
-          if (isThrottled) return;
-          isThrottled = true;
-
-          requestAnimationFrame(() => {
-            isThrottled = false;
-
-            if (appRef.current && mat.uniforms?.displacementScale) {
-              setTargetDisplacement(8.0);
-              mat.metalness = 0.35;
-              mat.roughness = 0.5;
-
-              clearTimeout(idleTimeout);
-              idleTimeout = setTimeout(() => {
-                if (appRef.current && mat.uniforms?.displacementScale) {
-                  setTargetDisplacement(3.5);
-                  mat.metalness = 0.55;
-                  mat.roughness = 0.35;
-                }
-              }, 1500);
-            }
-
-            // Forward mouse to canvas
-            if (canvasRef.current) {
-              canvasRef.current.dispatchEvent(
-                new MouseEvent('mousemove', {
-                  clientX: lastX,
-                  clientY: lastY,
-                  bubbles: false,
-                  cancelable: true,
-                })
-              );
-            }
-          });
-        };
-
-        window.addEventListener('mousemove', handleMovement, { passive: true });
-
-        return () => {
-          clearTimeout(idleTimeout);
-          window.removeEventListener('mousemove', handleMovement);
-        };
 
       } catch (error) {
         console.error('Failed to load LiquidBackground:', error);
@@ -128,7 +80,16 @@ export default function LiquidHeroBackground() {
   }, []);
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: -99, pointerEvents: 'none' }}>
+    <div style={{ 
+      position: 'fixed', 
+      top: 0, 
+      left: 0, 
+      width: '100%', 
+      height: '100lvh', 
+      zIndex: -99, 
+      pointerEvents: 'none',
+      willChange: 'transform'
+    }}>
       <canvas
         id="canvas-liquid-bg"
         ref={canvasRef}

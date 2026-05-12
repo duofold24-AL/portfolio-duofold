@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import BookCallModal from './BookCallModal'
 import LiquidButton from './LiquidButton'
@@ -6,17 +6,35 @@ import './AnimatedCtaButton.css'
 
 export default function FloatingBookCall() {
   const [open, setOpen] = useState(false)
+  const [dimensions, setDimensions] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    isMobile: typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  })
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        isMobile: window.innerWidth <= 768
+      })
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const btnWidth = dimensions.isMobile ? dimensions.width - 64 : 280
+  const btnHeight = dimensions.isMobile ? 48 : 55
 
   return (
     <>
       <BookCallModal isOpen={open} onClose={() => setOpen(false)} />
 
-      <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 9999 }}>
+      <div className="floating-cta-container">
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.5 }}
-          style={{ position: 'relative', width: 200, height: 55 }}
+          transition={{ delay: 0.4, duration: 0.4 }}
+          className="floating-cta-inner"
         >
           {/* Waves */}
           <div className="button-ripple-wave" />
@@ -25,8 +43,8 @@ export default function FloatingBookCall() {
           <LiquidButton
             text="Book a Call"
             onClick={() => setOpen(true)}
-            width={200}
-            height={55}
+            width={btnWidth}
+            height={btnHeight}
             color1="#800020"
             color2="#990026"
             color3="#4d0013"

@@ -1,13 +1,16 @@
 import React, { Suspense, lazy } from 'react'
+
+
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import LiquidHeroBackground from './components/LiquidHeroBackground'
 
 // Lazy load components below the fold
+import Footer from './components/Footer'
+import FloatingBookCall from './components/FloatingBookCall'
 const About = lazy(() => import('./components/About'))
 const Projects = lazy(() => import('./components/Projects'))
 const Contact = lazy(() => import('./components/Contact'))
-const Footer = lazy(() => import('./components/Footer'))
 const Testimonials = lazy(() => import('./components/Testimonials'))
 
 const AdminPage = lazy(() => import('./components/AdminPage'))
@@ -17,7 +20,6 @@ const MemberPage = lazy(() => import('./components/MemberPage'))
 const HireUsPage = lazy(() => import('./components/HireUsPage'))
 const ServicesPage = lazy(() => import('./components/ServicesPage'))
 const Services = lazy(() => import('./components/Services'))
-const FloatingBookCall = lazy(() => import('./components/FloatingBookCall'))
 
 import { SkeletonBase, HeroSkeleton, AboutSkeleton, ProjectSkeleton, TestimonialSkeleton, MemberSkeleton, DashboardSkeleton, ServicesSkeleton, FooterSkeleton, GeneralPageSkeleton } from './components/Skeleton'
 
@@ -111,7 +113,7 @@ export default function App() {
             <feComposite in="goo-alpha" in2="eroded-blur" operator="out" result="edge" />
             <feColorMatrix in="edge" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.8 0" result="glass-edge" />
             <feGaussianBlur in="goo-alpha" stdDeviation="5" result="spec-depth" />
-            <feSpecularLighting in="spec-depth" surfaceScale="7" specularConstant="1.2" specularExponent="40" lighting-color="#ffffff" result="spec">
+            <feSpecularLighting in="spec-depth" surfaceScale="7" specularConstant="1.2" specularExponent="40" lightingColor="#ffffff" result="spec">
               <fePointLight x="-50" y="-100" z="250" />
             </feSpecularLighting>
             <feComposite in="spec" in2="goo-alpha" operator="in" result="spec-cut" />
@@ -189,8 +191,18 @@ export default function App() {
       </svg>
 
       {/* Background Ecosystem */}
-      <div id="app-background-composer" style={{ position: 'fixed', inset: 0, zIndex: -100, overflow: 'hidden', background: '#0b0b0f' }}>
-        <LiquidHeroBackground />
+      <div id="app-background-composer" style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100%', 
+        height: '100lvh', 
+        zIndex: -100, 
+        overflow: 'hidden', 
+        background: 'var(--bg)',
+        willChange: 'transform'
+      }}>
+        {!isAdminPath && <LiquidHeroBackground />}
       </div>
 
       <Suspense fallback={<div className="global-loader" />}>

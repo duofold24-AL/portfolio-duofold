@@ -190,6 +190,34 @@ body {
   overflow: hidden;
 }
 
+/* ── Floating CTA Responsive Styles ── */
+.floating-cta-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+}
+
+@media (max-width: 768px) {
+  .floating-cta-container {
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    background: none;
+    backdrop-filter: none;
+    border-top: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+  .floating-cta-inner {
+    pointer-events: auto;
+    width: auto !important;
+  }
+
+}
+
 .skeleton::after {
   content: "";
   position: absolute;
@@ -2715,3 +2743,17 @@ body.light-mode .button-liquid-specular {
   z-index: 2;
 }
 
+/* ================================================================
+   ACCESSIBILITY: REDUCED MOTION
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Extra spacing for mobile footer to avoid overlap with fixed CTA */
+@media (max-width: 768px) { .footer { padding-bottom: 120px !important; } .floating-cta-container { pointer-events: none; } }

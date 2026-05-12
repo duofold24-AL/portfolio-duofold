@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://digitalhall.com/sitemap.xml

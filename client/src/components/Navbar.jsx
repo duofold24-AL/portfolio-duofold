@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useScroll, useVelocity, useTransform, useSpring } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import HireUsButton from './HireUsButton'
 
 const navItems = [
@@ -11,20 +11,17 @@ const navItems = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [hoveredIndex, setHoveredIndex] = useState(null)
-  const [mouseVelocity, setMouseVelocity] = useState(0)
-  const lastMousePos = useRef({ x: 0, y: 0, time: 0 })
-  
-  // High-end Scroll Squish Logic
-  const { scrollY } = useScroll()
-  const scrollVelocity = useVelocity(scrollY)
-  
-  const smoothVelocity = useSpring(scrollVelocity, { stiffness: 60, damping: 20 })
-  const scaleY = useTransform(smoothVelocity, [-2000, 0, 2000], [0.85, 1, 0.85])
   
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll)
+    let timeout;
+    const onScroll = () => {
+      if (timeout) return;
+      timeout = setTimeout(() => {
+        setScrolled(window.scrollY > 40)
+        timeout = null;
+      }, 100);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -35,20 +32,6 @@ export default function Navbar() {
       document.body.style.overflow = 'unset'
     }
   }, [mobileMenuOpen])
-
-  const handleMouseMove = (e) => {
-    const now = Date.now()
-    const dt = now - lastMousePos.current.time
-    
-    if (dt > 0) {
-      const dx = e.clientX - lastMousePos.current.x
-      const dy = e.clientY - lastMousePos.current.y
-      const dist = Math.sqrt(dx * dx + dy * dy)
-      const velocity = dist / dt
-      setMouseVelocity(Math.min(velocity * 10, 100))
-    }
-    lastMousePos.current = { x: e.clientX, y: e.clientY, time: now }
-  }
 
   const handleLinkClick = (e, href) => {
     // Determine if we are on the home page
@@ -80,14 +63,7 @@ export default function Navbar() {
       <nav className={`navbar-one ${scrolled ? 'nav-scrolled' : ''}`}>
         <motion.div 
           className="glass-container navbar-container"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={() => {
-            setHoveredIndex(null)
-            setMouseVelocity(0)
-          }}
           style={{ 
-            scaleY, 
-            transformOrigin: 'top center',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -129,25 +105,18 @@ export default function Navbar() {
 
           {/* Desktop Links */}
           <div className="desktop-links">
-            {navItems.map((item, idx) => (
+            {navItems.map((item) => (
               <motion.a
                 key={item.name}
                 href={item.href}
                 className="nav-link-item"
-                onMouseEnter={() => setHoveredIndex(idx)}
                 onClick={(e) => handleLinkClick(e, item.href)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <motion.span 
                   className="nav-link-text"
-                  animate={{ 
-                    scale: hoveredIndex === idx ? 1.25 : 1,
-                    y: hoveredIndex === idx ? -1 : 0,
-                    textShadow: mouseVelocity > 5 && hoveredIndex === idx 
-                      ? `0 0 ${mouseVelocity/5}px rgba(255,255,255,0.5)`
-                      : '0 0 0 rgba(0,0,0,0)'
-                  }}
+                  whileHover={{ scale: 1.1, y: -1 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   {item.name}

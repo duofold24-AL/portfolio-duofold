@@ -70,12 +70,28 @@ def submit_contact(body: ContactIn):
 def delete_message(message_id: int):
     try:
         count = execute_query(
-            "DELETE FROM contact_messages WHERE id=%s",
+            "UPDATE contact_messages SET is_archived = True WHERE id=%s",
             (message_id,),
             fetch=False,
         )
         if count == 0:
             raise HTTPException(status_code=404, detail="Message not found")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.put("/contact/{message_id}/restore", status_code=200, dependencies=[Depends(require_admin)])
+def restore_message(message_id: int):
+    try:
+        count = execute_query(
+            "UPDATE contact_messages SET is_archived = False WHERE id=%s",
+            (message_id,),
+            fetch=False,
+        )
+        if count == 0:
+            raise HTTPException(status_code=404, detail="Message not found")
+        return {"success": True}
     except HTTPException:
         raise
     except Exception as e:

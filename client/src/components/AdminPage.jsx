@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import ThemeToggle from './ThemeToggle'
 
 const API = '/api'
 const TOKEN_KEY = 'admin_token'
@@ -23,22 +24,68 @@ const css = `
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:        #060608;
-    --surface:   rgba(255, 255, 255, 0.03);
-    --surface-h: rgba(255, 255, 255, 0.06);
-    --border:    rgba(255, 255, 255, 0.08);
-    --accent:    #800020;
-    --accent-d:  #c4304e;
-    --accent-g:  linear-gradient(135deg, #800020, #ff7aa2);
+    --bg:        #09090b;
+    --surface:   #18181b;
+    --surface-h: #27272a;
+    --border:    #27272a;
+    --accent:    #ffffff;
+    --accent-d:  #e4e4e7;
+    --accent-g:  #ffffff;
     --text:      #ffffff;
-    --muted:     rgba(255, 255, 255, 0.5);
-    --danger:    #ff4d4d;
-    --success:   #00ff9d;
+    --muted:     #a1a1aa;
+    --danger:    #f87171;
+    --success:   #34d399;
     --font-head: 'Epilogue', sans-serif;
     --font-body: 'Space Grotesk', sans-serif;
-    --radius:    16px;
-    --glass:     blur(20px) saturate(180%);
-    --shadow:    0 20px 40px rgba(0, 0, 0, 0.4);
+    --radius:    8px;
+    --glass:     none;
+    --shadow:    0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    
+    --btn-primary-bg: #ffffff;
+    --btn-primary-text: #000000;
+    --btn-primary-shadow: rgba(255, 255, 255, 0.1);
+    --btn-ghost-bg: rgba(255, 255, 255, 0.05);
+    --btn-ghost-bg-hover: rgba(255, 255, 255, 0.1);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --input-bg: rgba(255, 255, 255, 0.03);
+    --input-focus-bg: rgba(255, 255, 255, 0.06);
+    --input-focus-border: rgba(255, 255, 255, 0.2);
+    --input-focus-shadow: rgba(255, 255, 255, 0.05);
+    --hover-bg: rgba(255, 255, 255, 0.02);
+    --tag-bg: rgba(255, 255, 255, 0.06);
+    --tag-text: rgba(255, 255, 255, 0.8);
+    --sidebar-bg: rgba(255, 255, 255, 0.01);
+    --mobile-bg: rgba(6, 6, 8, 0.8);
+  }
+
+  body.light-mode {
+    --bg:        #fafafa;
+    --surface:   #ffffff;
+    --surface-h: #f4f4f5;
+    --border:    #e4e4e7;
+    --accent:    #09090b;
+    --accent-d:  #27272a;
+    --accent-g:  #09090b;
+    --text:      #09090b;
+    --muted:     #71717a;
+    --danger:    #ef4444;
+    --success:   #10b981;
+    
+    --btn-primary-bg: #09090b;
+    --btn-primary-text: #ffffff;
+    --btn-primary-shadow: rgba(0, 0, 0, 0.2);
+    --btn-ghost-bg: rgba(0, 0, 0, 0.04);
+    --btn-ghost-bg-hover: rgba(0, 0, 0, 0.08);
+    --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    --input-bg: #f4f4f5;
+    --input-focus-bg: #ffffff;
+    --input-focus-border: #a1a1aa;
+    --input-focus-shadow: rgba(0, 0, 0, 0.05);
+    --hover-bg: #f4f4f5;
+    --tag-bg: #e4e4e7;
+    --tag-text: #27272a;
+    --sidebar-bg: #ffffff;
+    --mobile-bg: #ffffff;
   }
 
   body { 
@@ -59,13 +106,12 @@ const css = `
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at center, #0f0f1a 0%, var(--bg) 100%);
+    background: var(--bg);
     padding: 20px;
   }
   .login-card {
-    background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--border);
-    border-radius: 24px;
+    border-radius: var(--radius);
     padding: 56px 48px;
     width: 100%;
     max-width: 420px;
@@ -80,9 +126,7 @@ const css = `
     letter-spacing: -1px;
     margin-bottom: 12px;
     text-align: center;
-    background: linear-gradient(to right, #fff, var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--accent);
   }
   .login-sub {
     color: var(--muted);
@@ -104,12 +148,14 @@ const css = `
   /* ── Admin Layout ── */
   .admin-root {
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 280px minmax(0, 1fr);
     min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   .sidebar {
-    background: rgba(255, 255, 255, 0.01);
+    background: var(--sidebar-bg);
     border-right: 1px solid var(--border);
     padding: 40px 24px;
     display: flex;
@@ -128,7 +174,7 @@ const css = `
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #fff;
+    color: var(--text);
     letter-spacing: 1px;
     text-transform: uppercase;
   }
@@ -152,11 +198,11 @@ const css = `
     align-items: center;
     gap: 12px;
   }
-  .nav-item:hover { background: var(--surface-h); color: #fff; }
+  .nav-item:hover { background: var(--surface-h); color: var(--text); }
   .nav-item.active {
     background: var(--surface-h);
-    color: #fff;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+    color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--border);
   }
   .nav-item.active::after {
     content: '';
@@ -180,18 +226,19 @@ const css = `
     font-size: 40px;
     font-weight: 900;
     letter-spacing: -1.5px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    color: var(--text);
   }
-  .page-header p { color: var(--muted); font-size: 16px; }
+  .page-header p { color: var(--muted); font-size: 14px; }
 
   /* ── UI Components ── */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 24px;
+    border-radius: var(--radius);
     padding: 32px;
     backdrop-filter: var(--glass);
-    box-shadow: var(--shadow);
+    box-shadow: var(--card-shadow);
   }
   .card-header {
     display: flex;
@@ -215,16 +262,16 @@ const css = `
     font-family: var(--font-body);
   }
   .btn-primary {
-    background: #fff;
-    color: #000;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px var(--btn-primary-shadow); }
   .btn-ghost {
-    background: rgba(255,255,255,0.05);
-    color: #fff;
+    background: var(--btn-ghost-bg);
+    color: var(--text);
     border: 1px solid var(--border);
   }
-  .btn-ghost:hover { background: rgba(255,255,255,0.1); }
+  .btn-ghost:hover { background: var(--btn-ghost-bg-hover); }
   .btn-danger {
     background: rgba(255, 77, 77, 0.1);
     color: var(--danger);
@@ -232,14 +279,16 @@ const css = `
   }
   .btn-danger:hover { background: rgba(255, 77, 77, 0.2); }
 
-  /* ── Table ── */
   .table-wrap { 
     overflow-x: auto; 
     -webkit-overflow-scrolling: touch;
     border: 1px solid var(--border);
     border-radius: 12px;
   }
-  table { min-width: 800px; }
+  .table-wrap::-webkit-scrollbar { height: 4px; }
+  .table-wrap::-webkit-scrollbar-track { background: transparent; }
+  .table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+  table { min-width: 800px; width: 100%; border-collapse: collapse; table-layout: fixed; }
 
   th {
     text-align: left;
@@ -258,41 +307,41 @@ const css = `
     vertical-align: middle;
   }
   tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(255,255,255,0.02); }
+  tr:hover td { background: var(--hover-bg); }
 
   /* ── Stats ── */
   .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 40px; }
   .stat-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: var(--radius);
     padding: 28px;
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
   .stat-label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-  .stat-value { font-family: var(--font-head); font-size: 44px; font-weight: 900; color: #fff; }
+  .stat-value { font-family: var(--font-head); font-size: 44px; font-weight: 900; color: var(--text); }
 
   /* ── Forms ── */
   .field { margin-bottom: 24px; }
   .field label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
   .field input, .field textarea, .field select {
     width: 100%;
-    background: rgba(255,255,255,0.03);
+    background: var(--input-bg);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 14px 16px;
-    color: #fff;
+    color: var(--text);
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 16px;
     transition: all 0.2s;
   }
   .field input:focus, .field textarea:focus {
-    background: rgba(255,255,255,0.06);
-    border-color: rgba(255,255,255,0.2);
+    background: var(--input-focus-bg);
+    border-color: var(--input-focus-border);
     outline: none;
-    box-shadow: 0 0 0 4px rgba(255,255,255,0.05);
+    box-shadow: 0 0 0 4px var(--input-focus-shadow);
   }
 
   /* ── Modal ── */
@@ -308,13 +357,13 @@ const css = `
     padding: 24px;
   }
   .modal {
-    background: #0d0d12;
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 28px;
+    border-radius: var(--radius);
     padding: 48px;
     width: 100%;
     max-width: 600px;
-    box-shadow: 0 50px 100px rgba(0,0,0,0.8);
+    box-shadow: var(--card-shadow);
     animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     max-height: 90vh;
     overflow-y: auto;
@@ -323,7 +372,7 @@ const css = `
   .modal-footer { display: flex; gap: 12px; justify-content: flex-end; margin-top: 32px; }
 
   /* ── Misc ── */
-  .tag { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+  .tag { background: var(--tag-bg); color: var(--tag-text); padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; }
   .loader { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 100px; color: var(--muted); }
   .spinner { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -339,7 +388,7 @@ const css = `
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(6, 6, 8, 0.8);
+    background: var(--mobile-bg);
     backdrop-filter: var(--glass);
     border-bottom: 1px solid var(--border);
     padding: 16px 20px;
@@ -347,13 +396,50 @@ const css = `
     justify-content: space-between;
   }
 
+  /* ── Mobile Navigation ── */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 12px 0;
+    z-index: 1000;
+    justify-content: space-around;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+  }
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    flex: 1;
+    transition: all 0.2s;
+  }
+  .mobile-nav-item.active {
+    color: var(--accent);
+  }
+  .mobile-nav-icon { font-size: 20px; margin-bottom: 2px; }
+
   @media (max-width: 1024px) {
-    .admin-root { grid-template-columns: 1fr; }
+    .admin-root { grid-template-columns: minmax(0, 1fr); }
     .sidebar { display: none; }
     .mobile-header { display: flex; }
-    .admin-main { padding: 32px 20px; }
-    .page-header h1 { font-size: 32px; }
-    .stats-grid { grid-template-columns: 1fr; }
+    .mobile-nav { display: flex; }
+    .admin-main { padding: 16px 16px 100px 16px; }
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-size: 28px; letter-spacing: -1px; }
+    .page-header p { font-size: 13px; }
+    .stats-grid { grid-template-columns: 1fr; gap: 16px; }
     .modal { padding: 24px; border-radius: 20px; width: 95%; }
     .modal-footer { flex-direction: column-reverse; }
     .modal-footer .btn { width: 100%; justify-content: center; }
@@ -368,6 +454,30 @@ const css = `
 `
 
 // ── Utility ────────────────────────────────────────────────────────────────
+const NavIcon = ({ type, active }) => {
+  const color = active ? 'var(--accent)' : 'var(--muted)';
+  if (type === 'projects') return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+    </svg>
+  )
+  if (type === 'skills') return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+      <line x1="12" y1="22.08" x2="12" y2="12"></line>
+    </svg>
+  )
+  if (type === 'contact') return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <polyline points="16 11 18 13 22 9"></polyline>
+    </svg>
+  )
+  return null
+}
+
 const Alert = ({ type, msg, onClose }) => (
   <div className={`alert alert-${type}`} style={{
     padding: '12px 16px',
@@ -523,6 +633,14 @@ function ProjectsTab({ onUnauth }) {
         {loading ? <Loader /> : projects.length === 0 ? <div className="empty" style={{ textAlign: 'center', padding: '60px', color: 'var(--muted)' }}>No production assets found.</div> : (
           <div className="table-wrap">
             <table>
+              <colgroup>
+                <col style={{ width: '10%' }} />
+                <col style={{ width: '25%' }} />
+                <col style={{ width: '30%' }} />
+                <col style={{ width: '10%' }} />
+                <col style={{ width: '10%' }} />
+                <col style={{ width: '15%' }} />
+              </colgroup>
               <thead>
                 <tr>
                   <th>Ref</th><th>Title</th><th>Stack</th><th>Style</th><th>Live</th><th>Actions</th>
@@ -678,6 +796,12 @@ function SkillsTab({ onUnauth }) {
         {loading ? <Loader /> : (
           <div className="table-wrap">
             <table>
+              <colgroup>
+                <col style={{ width: '10%' }} />
+                <col style={{ width: '40%' }} />
+                <col style={{ width: '30%' }} />
+                <col style={{ width: '20%' }} />
+              </colgroup>
               <thead>
                 <tr><th>Icon</th><th>Capability</th><th>Category</th><th>Actions</th></tr>
               </thead>
@@ -725,6 +849,7 @@ function ContactTab({ onUnauth }) {
   const [loading, setLoading] = useState(true)
   const [alert, setAlert] = useState(null)
   const [selectedMessage, setSelectedMessage] = useState(null)
+  const [showArchived, setShowArchived] = useState(false)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -747,42 +872,82 @@ function ContactTab({ onUnauth }) {
     } catch { setAlert({ type: 'error', msg: 'Archive failed.' }) }
   }
 
+  const restore = async (id) => {
+    try {
+      const r = await apiFetch(`/contact/${id}/restore`, { method: 'PUT' })
+      if (r.status === 401) { onUnauth(); return }
+      if (selectedMessage && selectedMessage.id === id) setSelectedMessage(null)
+      load()
+    } catch { setAlert({ type: 'error', msg: 'Restore failed.' }) }
+  }
+
+  const activeMessages = messages.filter(m => showArchived ? m.is_archived : !m.is_archived)
+  const calendarLeads = activeMessages.filter(m => m.message?.includes('CALL BOOKING REQUEST'))
+  const otherLeads = activeMessages.filter(m => !m.message?.includes('CALL BOOKING REQUEST'))
+
+  const renderTable = (leads) => (
+    <div className="table-wrap">
+      <table>
+        <colgroup>
+          <col style={{ width: '20%' }} />
+          <col style={{ width: '25%' }} />
+          <col style={{ width: '40%' }} />
+          <col style={{ width: '15%' }} />
+        </colgroup>
+        <thead>
+          <tr><th>Timestamp</th><th>Sender</th><th>Message Preview</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          {leads.map(m => (
+            <tr key={m.id}>
+              <td style={{ fontSize: 11, color: 'var(--muted)', whiteSpace: 'nowrap' }}>{new Date(m.created_at).toLocaleString()}</td>
+              <td>
+                <div style={{ fontWeight: 700 }}>{m.name}</div>
+                <div style={{ fontSize: 12, color: 'var(--accent)' }}>{m.email}</div>
+              </td>
+              <td>
+                <div style={{ fontSize: 12, color: 'var(--muted)', maxWidth: 400, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.message}</div>
+              </td>
+              <td>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => setSelectedMessage(m)}>View</button>
+                  {showArchived ? (
+                    <button className="btn btn-primary" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => restore(m.id)}>Restore</button>
+                  ) : (
+                    <button className="btn btn-danger" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => del(m.id)}>Archive</button>
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+
   return (
     <div>
       {alert && <Alert {...alert} onClose={() => setAlert(null)} />}
       <div className="card">
         <div className="card-header">
-          <span className="card-title">Inbound Communications</span>
-          <div style={{ fontSize: 12, color: 'var(--muted)' }}>{messages.length} Active Leads</div>
+          <div>
+            <span className="card-title">{showArchived ? 'Archived Communications' : 'Inbound Communications'}</span>
+            <div style={{ fontSize: 12, color: 'var(--muted)' }}>{activeMessages.length} {showArchived ? 'Archived' : 'Active'} Leads</div>
+          </div>
+          <button className="btn btn-ghost" onClick={() => setShowArchived(!showArchived)}>
+            {showArchived ? 'View Active' : 'View Archived'}
+          </button>
         </div>
         {loading ? <Loader /> : (
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr><th>Timestamp</th><th>Sender</th><th>Inquiry</th><th>Action</th></tr>
-              </thead>
-              <tbody>
-                {messages.map(m => (
-                  <tr key={m.id}>
-                    <td style={{ fontSize: 11, color: 'var(--muted)', whiteSpace: 'nowrap' }}>{new Date(m.created_at).toLocaleString()}</td>
-                    <td>
-                      <div style={{ fontWeight: 700 }}>{m.name}</div>
-                      <div style={{ fontSize: 12, color: 'var(--accent)' }}>{m.email}</div>
-                    </td>
-                    <td>
-                      <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 4 }}>{m.subject}</div>
-                      <div style={{ fontSize: 12, color: 'var(--muted)', maxWidth: 400, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.message}</div>
-                    </td>
-                    <td>
-                      <div style={{ display: 'flex', gap: 8 }}>
-                        <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => setSelectedMessage(m)}>View</button>
-                        <button className="btn btn-danger" style={{ padding: '6px 12px', fontSize: 11 }} onClick={() => del(m.id)}>Archive</button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+            <div>
+              <h3 style={{ fontSize: '14px', marginBottom: '16px', color: 'var(--text)', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>📅 Calendar Booking Leads</h3>
+              {calendarLeads.length === 0 ? <div style={{ color: 'var(--muted)', fontSize: 13 }}>No calendar leads found.</div> : renderTable(calendarLeads)}
+            </div>
+            <div>
+              <h3 style={{ fontSize: '14px', marginBottom: '16px', color: 'var(--text)', borderBottom: '1px solid var(--border)', paddingBottom: '8px' }}>✉️ General Inquiries</h3>
+              {otherLeads.length === 0 ? <div style={{ color: 'var(--muted)', fontSize: 13 }}>No general inquiries found.</div> : renderTable(otherLeads)}
+            </div>
           </div>
         )}
       </div>
@@ -791,20 +956,14 @@ function ContactTab({ onUnauth }) {
         <div className="modal-overlay" onClick={e => e.target === e.currentTarget && setSelectedMessage(null)}>
           <div className="modal">
             <div className="modal-title">Lead Details</div>
-            
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
-              <div className="field" style={{ marginBottom: 0 }}><label>Sender Name</label><div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px 16px', borderRadius: 12, border: '1px solid var(--border)' }}>{selectedMessage.name}</div></div>
-              <div className="field" style={{ marginBottom: 0 }}><label>Sender Email</label><div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px 16px', borderRadius: 12, border: '1px solid var(--border)', color: 'var(--accent)' }}>{selectedMessage.email}</div></div>
-            </div>
-
-            <div className="field">
-              <label>Subject / Inquiry Type</label>
-              <div style={{ background: 'rgba(255,255,255,0.02)', padding: '12px 16px', borderRadius: 12, border: '1px solid var(--border)', fontWeight: 600 }}>{selectedMessage.subject}</div>
+              <div className="field" style={{ marginBottom: 0 }}><label>Sender Name</label><div style={{ background: 'var(--surface-h)', padding: '12px 16px', borderRadius: 12, border: '1px solid var(--border)' }}>{selectedMessage.name}</div></div>
+              <div className="field" style={{ marginBottom: 0 }}><label>Sender Email</label><div style={{ background: 'var(--surface-h)', padding: '12px 16px', borderRadius: 12, border: '1px solid var(--border)', color: 'var(--accent)' }}>{selectedMessage.email}</div></div>
             </div>
 
             <div className="field">
               <label>Full Message</label>
-              <div style={{ background: 'rgba(255,255,255,0.02)', padding: '16px', borderRadius: 12, border: '1px solid var(--border)', whiteSpace: 'pre-wrap', lineHeight: 1.6, minHeight: '120px' }}>
+              <div style={{ background: 'var(--surface-h)', padding: '16px', borderRadius: 12, border: '1px solid var(--border)', whiteSpace: 'pre-wrap', lineHeight: 1.6, minHeight: '120px' }}>
                 {selectedMessage.message}
               </div>
             </div>
@@ -814,8 +973,12 @@ function ContactTab({ onUnauth }) {
             </div>
 
             <div className="modal-footer">
-              <button className="btn btn-danger" onClick={() => { del(selectedMessage.id); }}>Archive Lead</button>
-              <button className="btn btn-primary" onClick={() => setSelectedMessage(null)}>Close Window</button>
+              {showArchived ? (
+                <button className="btn btn-primary" onClick={() => { restore(selectedMessage.id); }}>Restore Lead</button>
+              ) : (
+                <button className="btn btn-danger" onClick={() => { del(selectedMessage.id); }}>Archive Lead</button>
+              )}
+              <button className="btn btn-ghost" onClick={() => setSelectedMessage(null)}>Close Window</button>
             </div>
           </div>
         </div>
@@ -869,35 +1032,38 @@ export default function AdminPage() {
           <span className="dot" />
           <span>Console</span>
         </div>
-        <select 
-          value={tab} 
-          onChange={(e) => setTab(e.target.value)}
-          style={{
-            background: 'var(--surface-h)',
-            border: '1px solid var(--border)',
-            color: '#fff',
-            padding: '6px 12px',
-            borderRadius: '8px',
-            fontSize: '13px'
-          }}
-        >
-          <option value="projects">Production</option>
-          <option value="skills">Capabilities</option>
-          <option value="contact">Leads</option>
-        </select>
-        <button 
-          onClick={onUnauth} 
-          style={{ 
-            background: 'none', 
-            border: 'none', 
-            color: 'var(--danger)', 
-            fontSize: '12px', 
-            fontWeight: 700 
-          }}
-        >
-          Exit
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <ThemeToggle />
+          <button 
+            onClick={onUnauth} 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: 'var(--danger)', 
+              fontSize: '12px', 
+              fontWeight: 700 
+            }}
+          >
+            Exit
+          </button>
+        </div>
       </header>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="mobile-nav">
+        <div className={`mobile-nav-item ${tab === 'projects' ? 'active' : ''}`} onClick={() => setTab('projects')}>
+          <NavIcon type="projects" active={tab === 'projects'} />
+          <span>Assets</span>
+        </div>
+        <div className={`mobile-nav-item ${tab === 'skills' ? 'active' : ''}`} onClick={() => setTab('skills')}>
+          <NavIcon type="skills" active={tab === 'skills'} />
+          <span>Core</span>
+        </div>
+        <div className={`mobile-nav-item ${tab === 'contact' ? 'active' : ''}`} onClick={() => setTab('contact')}>
+          <NavIcon type="contact" active={tab === 'contact'} />
+          <span>Leads</span>
+        </div>
+      </nav>
 
       <aside className="sidebar">
         <div className="sidebar-logo">
@@ -907,17 +1073,23 @@ export default function AdminPage() {
         
         <nav style={{ flex: 1 }}>
           <div className={`nav-item ${tab === 'projects' ? 'active' : ''}`} onClick={() => setTab('projects')}>
+            <NavIcon type="projects" active={tab === 'projects'} />
             Production
           </div>
           <div className={`nav-item ${tab === 'skills' ? 'active' : ''}`} onClick={() => setTab('skills')}>
+            <NavIcon type="skills" active={tab === 'skills'} />
             Capabilities
           </div>
           <div className={`nav-item ${tab === 'contact' ? 'active' : ''}`} onClick={() => setTab('contact')}>
+            <NavIcon type="contact" active={tab === 'contact'} />
             Leads
           </div>
         </nav>
 
-        <div style={{ marginTop: 'auto' }}>
+        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ padding: '0 16px' }}>
+            <ThemeToggle />
+          </div>
           <div className="nav-item" onClick={onUnauth} style={{ color: 'var(--danger)' }}>
             Terminate Session
           </div>
